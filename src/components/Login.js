@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,10 +10,14 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useSelector, useDispatch } from 'react-redux';
+import { auth } from '../actions';
+import { Redirect } from 'react-router';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="white" align="center">
+    <Typography variant="body2" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
         Your Website
@@ -59,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 
+  multilineColor: {
+    color: 'white',
+  },
   cssFocused: {},
 
   notchedOutline: {
@@ -68,9 +75,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
-  const classes = useStyles();
+  const user = useSelector((state) => state.authenticated);
+  const message = useSelector((state) => state.errorMessage);
+  console.log(message);
 
-  return (
+  const classes = useStyles();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    const cred = {
+      username: username,
+      password: password,
+    };
+    dispatch(auth.login(cred));
+  }
+
+  return user ? (
+    <Redirect to="/dashboard" />
+  ) : (
     <div className={classes.root}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -81,16 +107,23 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          {message !== '' && (
+            <Alert severity="error">
+              <AlertTitle>Error</AlertTitle>
+              <strong>{message}</strong>
+            </Alert>
+          )}
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
               autoFocus
               InputLabelProps={{
                 classes: {
@@ -103,10 +136,13 @@ export default function SignIn() {
                   root: classes.cssOutlinedInput,
                   focused: classes.cssFocused,
                   notchedOutline: classes.notchedOutline,
+                  input: classes.multilineColor,
                 },
               }}
             />
             <TextField
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
               variant="outlined"
               margin="normal"
               required
@@ -127,6 +163,7 @@ export default function SignIn() {
                   root: classes.cssOutlinedInput,
                   focused: classes.cssFocused,
                   notchedOutline: classes.notchedOutline,
+                  input: classes.multilineColor,
                 },
               }}
             />

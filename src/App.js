@@ -5,11 +5,10 @@ import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { purple } from '@material-ui/core/colors';
 
-// import requireAuth from './components/require_auth';
-// import myLayout from './components/MyTemplate';
+import requireAuth from './components/require_auth';
 
 import Login from './components/Login';
-
+import Dash from './components/Dash';
 const App = () => {
   // const theme = createMuiTheme({
   //   palette: {
@@ -27,6 +26,7 @@ const App = () => {
     // <ThemeProvider theme={theme}>
     <BrowserRouter>
       <Route path="/" exact component={Login} />
+      <Route path="/dashboard" exact component={requireAuth(Dash)} />
       {/* <Route
             path="/dashboard"
             exact
