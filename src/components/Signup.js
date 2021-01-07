@@ -81,16 +81,20 @@ export default function SignIn() {
   const classes = useStyles();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+
   const dispatch = useDispatch();
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    const cred = {
-      username: username,
-      password: password,
+    const newUser = {
+      username,
+      password,
+      email,
     };
-    dispatch(auth.login(cred));
+
+    dispatch(auth.signup(newUser));
   }
 
   return user ? (
@@ -104,7 +108,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign up
           </Typography>
           {message !== '' && (
             <Alert severity="error">
@@ -166,7 +170,33 @@ export default function SignIn() {
                 },
               }}
             />
-
+            <TextField
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="email"
+              label="email"
+              type="email"
+              id="pemail"
+              autoComplete="current-email"
+              InputLabelProps={{
+                classes: {
+                  root: classes.cssLabel,
+                  focused: classes.cssFocused,
+                },
+              }}
+              InputProps={{
+                classes: {
+                  root: classes.cssOutlinedInput,
+                  focused: classes.cssFocused,
+                  notchedOutline: classes.notchedOutline,
+                  input: classes.multilineColor,
+                },
+              }}
+            />
             <Button
               type="submit"
               fullWidth
@@ -174,19 +204,15 @@ export default function SignIn() {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              Sign Up
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
+                <Link href="/" variant="body2">
+                  Go back
                 </Link>
               </Grid>
-              <Grid item>
-                <Link href="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+              <Grid item></Grid>
             </Grid>
           </form>
         </div>
