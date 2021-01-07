@@ -4,7 +4,7 @@ const DEV_ENVIR = true;
 
 const baseURL = DEV_ENVIR
   ? 'http://localhost:8080/api'
-  : 'https://pokeapi.co/api/v2';
+  : 'http://ec2-18-223-151-37.us-east-2.compute.amazonaws.com:8090/p2/api/';
 //this is where we config every single request for a certain api
 export const baseClient = axios.create({
   baseURL,
