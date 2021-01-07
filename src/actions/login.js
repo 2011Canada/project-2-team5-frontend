@@ -23,7 +23,7 @@ export const signup = (data) => async (dispatch) => {
   try {
     const response = await baseClient.post('/signup', data);
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       const user = response.data;
       delete user.password;
       dispatch({ type: CHANGE_AUTH, payload: user });
