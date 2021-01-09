@@ -6,12 +6,12 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { purple } from '@material-ui/core/colors';
 
 import requireAuth from './components/require_auth';
-
 import Login from './components/Login';
 import Signup from './components/Signup';
-import LocationInfo from './components/LocationInfo';
-
 import Dash from './components/Dash';
+
+import paris_test_photo from './paris_test_photo.jpg';
+import LocationDrawer from './components/LocationDrawer';
 const App = () => {
   // const theme = createMuiTheme({
   //   palette: {
@@ -25,13 +25,21 @@ const App = () => {
   //     },
   //   },
   // });
+
+  let testLocation = {
+    id: 0,
+    locationName: 'Paris',
+    description: 'This is a test description of Paris',
+    image: paris_test_photo
+  }
+
   return (
     // <ThemeProvider theme={theme}>
     <BrowserRouter>
       <Route path="/" exact component={Login} />
       <Route path="/signup" exact component={Signup} />
       <Route path="/dashboard" exact component={requireAuth(Dash)} />
-      <Route path="/locationTester" exact component={LocationInfo} />
+      <Route path="/locationTester"><LocationDrawer location={testLocation} /></Route>
       {/* <Route
             path="/dashboard"
             exact

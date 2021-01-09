@@ -11,8 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import CameraIcon from '@material-ui/icons/Camera';
 import PeopleIcon from '@material-ui/icons/People';
-
-import paris_test_photo from '../paris_test_photo.jpg';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   list: {
@@ -26,8 +25,12 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TemporaryDrawer() {
+const LocationDrawer = (props) => {
   const classes = useStyles();
+
+  const user = useSelector((state) => state.authenticated);
+  const location = props.location;
+
   const [state, setState] = React.useState({left: false});
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -47,7 +50,7 @@ export default function TemporaryDrawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-        <p style={{marginLeft:'10%', marginTop:'5%', marginBottom:'5%'}}>This is information about Paris. I hope it wraps correctly. If it doesn't wrap correctly I will be sad, and then I will have to go out and buy a bunch of croissants and get fat. So, hopefully it doesn't come to that.</p>
+        <p style={{marginLeft:'10%', marginTop:'5%', marginBottom:'5%'}}>{location.description}</p>
         <Divider />
         <h3 style={{marginLeft:'20px'}}>Actions</h3>
         <List>
@@ -66,13 +69,15 @@ export default function TemporaryDrawer() {
   return (
     <div>
         <React.Fragment>
-          <Button onClick={toggleDrawer('left', true)}>Paris</Button>
+          <Button onClick={toggleDrawer('left', true)}>{location.locationName}</Button>
           <Drawer anchor={'left'} open={state['left']} onClose={toggleDrawer('left', false)}>
-              <h1 style={{marginLeft:'auto', marginRight:'auto'}}>Paris</h1>
-              <img src={paris_test_photo} alt="Paris" style={{borderRadius: '5%', maxWidth: '50%', maxHeight: '50%', marginLeft: 'auto', marginRight:'auto'}} />
+              <h1 style={{marginLeft:'auto', marginRight:'auto'}}>{location.locationName}</h1>
+              <img src={location.image} alt={location.locationName} style={{borderRadius: '5%', maxWidth: '50%', maxHeight: '50%', marginLeft: 'auto', marginRight:'auto'}} />
             {locationInformation('left')}
           </Drawer>
         </React.Fragment>
     </div>
   );
 }
+
+export default LocationDrawer;
