@@ -79,7 +79,7 @@ export default function SignIn() {
   const message = useSelector((state) => state.errorMessage);
 
   const classes = useStyles();
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
 
@@ -87,8 +87,8 @@ export default function SignIn() {
     event.preventDefault();
 
     const cred = {
-      username: username,
-      password: password,
+      email,
+      password,
     };
     dispatch(auth.login(cred));
   }
@@ -114,15 +114,15 @@ export default function SignIn() {
           )}
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
-              onChange={(e) => setUsername(e.target.value)}
-              value={username}
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="username"
-              label="Username"
-              name="username"
+              id="email"
+              label="Email"
+              name="email"
               autoFocus
               InputLabelProps={{
                 classes: {
@@ -178,9 +178,7 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+                <Link href="#" variant="body2"></Link>
               </Grid>
               <Grid item>
                 <Link href="/signup" variant="body2">

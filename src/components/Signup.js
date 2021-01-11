@@ -118,16 +118,17 @@ export default function SignIn() {
           )}
           <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
-              onChange={(e) => setUsername(e.target.value)}
-              value={username}
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoFocus
+              name="email"
+              label="email"
+              type="email"
+              id="pemail"
+              autoComplete="current-email"
               InputLabelProps={{
                 classes: {
                   root: classes.cssLabel,
@@ -143,6 +144,7 @@ export default function SignIn() {
                 },
               }}
             />
+
             <TextField
               onChange={(e) => setPassword(e.target.value)}
               value={password}
@@ -171,17 +173,16 @@ export default function SignIn() {
               }}
             />
             <TextField
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              name="email"
-              label="email"
-              type="email"
-              id="pemail"
-              autoComplete="current-email"
+              id="username"
+              label="Username"
+              name="username"
+              autoFocus
               InputLabelProps={{
                 classes: {
                   root: classes.cssLabel,
