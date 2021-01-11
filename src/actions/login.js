@@ -3,7 +3,7 @@ import { baseClient } from '../utils/remote';
 
 export const login = (data) => async (dispatch) => {
   try {
-    const response = await baseClient.post('/login', data);
+    const response = await baseClient.post('/players/login', data);
 
     if (response.status === 200) {
       const user = response.data;
@@ -21,7 +21,7 @@ export const login = (data) => async (dispatch) => {
 
 export const signup = (data) => async (dispatch) => {
   try {
-    const response = await baseClient.post('/signup', data);
+    const response = await baseClient.post('/players/signup', data);
 
     if (response.status === 201) {
       const user = response.data;
