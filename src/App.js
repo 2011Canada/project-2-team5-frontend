@@ -12,6 +12,8 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Dash from './components/Dash';
 
+import Header from './components/Header';
+
 import paris_photo from './location_photos/paris.jpg';
 import LocationDrawer from './components/LocationDrawer';
 const App = () => {
@@ -28,39 +30,43 @@ const App = () => {
   //   },
   // });
 
-  
   let testLocation = {
     id: 0,
     locationName: 'Paris',
     description: 'This is a test description of Paris',
-    adjacent: [{id:0, name:'London'}, {id:1, name:'Berlin'}],
-    image: paris_photo
-  }
+    adjacent: [
+      { id: 0, name: 'London' },
+      { id: 1, name: 'Berlin' },
+    ],
+    image: paris_photo,
+  };
 
   let testLocation2 = {
     id: 1,
     locationName: 'Berlin',
     description: 'This is a test description of Berlin',
-    adjacent: [{id:2, name:'Paris'}, {id:3, name:'Rome'}],
-    image: {}
-  }
+    adjacent: [
+      { id: 2, name: 'Paris' },
+      { id: 3, name: 'Rome' },
+    ],
+    image: {},
+  };
 
   //TODO
-  let setLocation = () => {
-
-  }
+  let setLocation = () => {};
 
   return (
     // <ThemeProvider theme={theme}>
     <BrowserRouter>
       <Route path="/" exact component={Login} />
+      <Header />
       <Route path="/signup" exact component={Signup} />
       <Route path="/dashboard" exact component={requireAuth(Dash)} />
       <Route path="/map" exact component={Map} />
       <Route path="/locationTester">
         <LocationDrawer location={testLocation} setLocation={setLocation} />
         <LocationDrawer location={testLocation2} setLocation={setLocation} />
-        </Route>
+      </Route>
       {/* <Route
             path="/dashboard"
             exact
@@ -68,9 +74,8 @@ const App = () => {
           /> */}
 
       <Link to="/locationTester">Location Tester</Link>
-      <br/>
+      <br />
       <Link to="/">Home</Link>
-
     </BrowserRouter>
     // </ThemeProvider>
   );
