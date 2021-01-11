@@ -8,9 +8,15 @@ function WorldMap() {
 }
 
 function ParentMap() {
+
+/*HERE BEGINS THE FUNCTION THAT FIRES WHEN THE BUTTONS ARE PRESSED*/
+
   const handleButton = (location) => {
     console.log(location);
   };
+
+/*END OF FUNCTION THAT FIRES WHEN THE BUTTONS ARE PRESSED*/
+
   return (
     <div class="mapcontainer">
         <div class="mapfunction">
