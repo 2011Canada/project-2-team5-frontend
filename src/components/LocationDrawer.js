@@ -40,13 +40,12 @@ const useStyles = makeStyles({
   table: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: '10px',
   },
   backButton: {
     backgroundColor: 'white',
     flexFlow: 1,
     marginTop: '20px',
-    marginBottom: '10px',
+    marginBottom: '20px',
     marginLeft: '80%',
     marginRight: '10px',
   }
