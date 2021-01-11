@@ -7,6 +7,7 @@ import { purple } from '@material-ui/core/colors';
 
 import requireAuth from './components/require_auth';
 
+import Map from './components/Map/Map';
 import Login from './components/Login';
 import Signup from './components/Signup';
 
@@ -30,6 +31,7 @@ const App = () => {
       <Route path="/" exact component={Login} />
       <Route path="/signup" exact component={Signup} />
       <Route path="/dashboard" exact component={requireAuth(Dash)} />
+      <Route path="/map" exact component={Map} />
       {/* <Route
             path="/dashboard"
             exact
