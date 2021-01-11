@@ -15,6 +15,8 @@ import { auth } from '../actions';
 import { Redirect } from 'react-router';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
+import { MakeAnAlias } from '../utils/uri-fuctions.js';
+
 function Copyright() {
     return (
         <Typography variant="body2" align="center">
@@ -75,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function SignIn() {
+export default function Profile() {
     //const user = useSelector((state) => state.authenticated);
     const userOld = {
         "userId": 7,
@@ -91,29 +93,35 @@ export default function SignIn() {
     const [user, setUser] = useState(userOld);
 
     const classes = useStyles();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    
+
+
 
     const dispatch = useDispatch();
 
     function handleSubmit(event) {
         event.preventDefault();
 
-        console.log(user);
+        const aliasName = {
+            newAlias,
+        };
+
+        MakeAnAlias(user.userId, aliasName.newAlias)
+        
     }
 
     function handleOnChange(event) {
 
-       
         const value = event.target.value;
         const name = event.target.name;
-      
+
         user[name] = value;
-        console.log(user)
+        
         setUser(user);
 
+        console.log(user)
+
     };
+
     //Redirect to="/dashboard" (
     //   <p />
     // ) :
@@ -128,75 +136,177 @@ export default function SignIn() {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign up
-          </Typography>
+                        {user.firstName} {user.lastName}
+                    </Typography>
 
+                    <TextField
+                        onChange={(e) => handleOnChange(e)}
+                        defaultValue={user.userId}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="userId"
+                        label="User ID"
+                        name="userId"
+                        autoFocus
+                        InputLabelProps={{
+                            classes: {
+                                root: classes.cssLabel,
+                                focused: classes.cssFocused,
+                            },
+                        }}
+                        InputProps={{
+                            classes: {
+                                root: classes.cssOutlinedInput,
+                                focused: classes.cssFocused,
+                                notchedOutline: classes.notchedOutline,
+                                input: classes.multilineColor,
+                            },
+                        }}
+                    />
+
+                    <TextField
+                        onChange={(e) => handleOnChange(e)}
+                        defaultValue={user.email}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="email"
+                        label="Email"
+                        type="email"
+                        id="pemail"
+                        autoComplete="current-email"
+                        InputLabelProps={{
+                            classes: {
+                                root: classes.cssLabel,
+                                focused: classes.cssFocused,
+                            },
+                        }}
+                        InputProps={{
+                            classes: {
+                                root: classes.cssOutlinedInput,
+                                focused: classes.cssFocused,
+                                notchedOutline: classes.notchedOutline,
+                                input: classes.multilineColor,
+                            },
+                        }}
+                    />
+                    <TextField
+                        onChange={(e) => handleOnChange(e)}
+                        defaultValue={user.userName}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="username"
+                        label="Username"
+                        name="userName"
+                        autoFocus
+                        InputLabelProps={{
+                            classes: {
+                                root: classes.cssLabel,
+                                focused: classes.cssFocused,
+                            },
+                        }}
+                        InputProps={{
+                            classes: {
+                                root: classes.cssOutlinedInput,
+                                focused: classes.cssFocused,
+                                notchedOutline: classes.notchedOutline,
+                                input: classes.multilineColor,
+                            },
+                        }}
+                    />
+                    <TextField
+                        onChange={(e) => handleOnChange(e)}
+                        defaultValue={user.userPassword}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="userPassword"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        InputLabelProps={{
+                            classes: {
+                                root: classes.cssLabel,
+                                focused: classes.cssFocused,
+                            },
+                        }}
+                        InputProps={{
+                            classes: {
+                                root: classes.cssOutlinedInput,
+                                focused: classes.cssFocused,
+                                notchedOutline: classes.notchedOutline,
+                                input: classes.multilineColor,
+                            },
+                        }}
+                    />
+                    <TextField
+                        defaultValue={user.currentLocationId}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="currentLocationId"
+                        label="Current Location"
+                        name="currentLocationId"
+                        autoFocus
+                        InputLabelProps={{
+                            classes: {
+                                root: classes.cssLabel,
+                                focused: classes.cssFocused,
+                            },
+                        }}
+                        InputProps={{
+                            classes: {
+                                root: classes.cssOutlinedInput,
+                                focused: classes.cssFocused,
+                                notchedOutline: classes.notchedOutline,
+                                input: classes.multilineColor,
+                            },
+                        }}
+                    />
+                    <TextField
+                        defaultValue="Call some function"
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="currentAlias"
+                        label="Current Alias"
+                        name="currentAlias"
+                        autoFocus
+                        InputLabelProps={{
+                            classes: {
+                                root: classes.cssLabel,
+                                focused: classes.cssFocused,
+                            },
+                        }}
+                        InputProps={{
+                            classes: {
+                                root: classes.cssOutlinedInput,
+                                focused: classes.cssFocused,
+                                notchedOutline: classes.notchedOutline,
+                                input: classes.multilineColor,
+                            },
+                        }}
+                    />
                     <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                        <h3 backgroundColor="Black">Create New Alias</h3>
                         <TextField
-                            onChange={(e) => handleOnChange(e)}
-                            value={user.email}
+                            defaultValue="Alias Name"
                             variant="outlined"
                             margin="normal"
                             required
                             fullWidth
-                            name="email"
-                            label="email"
-                            type="email"
-                            id="pemail"
-                            autoComplete="current-email"
-                            InputLabelProps={{
-                                classes: {
-                                    root: classes.cssLabel,
-                                    focused: classes.cssFocused,
-                                },
-                            }}
-                            InputProps={{
-                                classes: {
-                                    root: classes.cssOutlinedInput,
-                                    focused: classes.cssFocused,
-                                    notchedOutline: classes.notchedOutline,
-                                    input: classes.multilineColor,
-                                },
-                            }}
-                        />
-
-                        <TextField
-                            onChange={(e) => setPassword(e.target.value)}
-                            value={password}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            InputLabelProps={{
-                                classes: {
-                                    root: classes.cssLabel,
-                                    focused: classes.cssFocused,
-                                },
-                            }}
-                            InputProps={{
-                                classes: {
-                                    root: classes.cssOutlinedInput,
-                                    focused: classes.cssFocused,
-                                    notchedOutline: classes.notchedOutline,
-                                    input: classes.multilineColor,
-                                },
-                            }}
-                        />
-                        <TextField
-                            onChange={(e) => setUsername(e.target.value)}
-                            value={username}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="username"
-                            label="Username"
-                            name="username"
+                            id="newAlias"
+                            label="Alias Name"
+                            name="newAlias"
                             autoFocus
                             InputLabelProps={{
                                 classes: {
@@ -213,23 +323,14 @@ export default function SignIn() {
                                 },
                             }}
                         />
+                        
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
-                        >
-                            Sign Up
-            </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <Link href="/" variant="body2">
-                                    Go back
-                </Link>
-                            </Grid>
-                            <Grid item></Grid>
-                        </Grid>
+                        >Create</Button>
                     </form>
                 </div>
                 <Box mt={8}>

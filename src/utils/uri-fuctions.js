@@ -58,3 +58,21 @@ export const HandleHackRequest = async (userId, locationId) => {
         }
     }
 }
+
+export const MakeAnAlias = async (userId, aliasName) => {
+    let alias = aliasName;
+
+    try {
+        let requestURI = `/${userId}/alias`;
+        let res = await baseClient.post(requestURI, alias)
+        console.log(res)
+        return res.data;
+
+    } catch(e) {
+        if (e.response) {
+            console.log(e)
+        } else {
+            console.log("Failed to send request.")
+        }
+    }
+}

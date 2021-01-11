@@ -63,7 +63,7 @@ const App = () => {
       <Header />
       <Route path="/signup" exact component={Signup} />
       <Route path="/dashboard" exact component={requireAuth(Dash)} />
-      <Route path = "/profile" exact component={Profile} />
+      <Route path="/profile" exact component={Profile} />
       <Route path="/map" exact component={Map} />
       <Route path="/locationTester">
         <LocationDrawer location={testLocation} setLocation={setLocation} />
