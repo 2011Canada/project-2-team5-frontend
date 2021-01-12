@@ -1,22 +1,30 @@
 div.mapcontainer {
   position: relative;
-  width: 926px;
-  height: 560px;
-  border: 3px solid #73AD21;
+  width: 65%;
+  margin: auto auto;
+}
+
+div.mapfunction {
+  resize: horizontal;
+  max-width: 100%;
+  padding-bottom: 60%;
+  background-image: url('northatlanticmap.jpg');
+  background-size: cover;
+  /* border: 3px solid #ad2121; */
 }
 
 div.nycbutton {
   position: absolute;
-  top: 300px;
-  right: 750px;
+  top: 50%;
+  right: 80%;
 }
 div.londonbutton {
   position: absolute;
-  top: 210px;
-  right: 270px;
+  top: 39%;
+  right: 35%;
 }
 div.parisbutton {
   position: absolute;
-  top: 260px;
-  right: 270px;
+  top: 47%;
+  right: 30%;
 }
