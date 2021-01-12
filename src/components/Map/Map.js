@@ -1,14 +1,14 @@
 import React from 'react';
-import MapImage from './northatlanticmap.jpg';
+// import MapImage from './worldmap.jpg';
 import './Map.css';
 import Button from '@material-ui/core/Button';
 import LocationDrawer from '../LocationDrawer';
 
 import paris_photo from '../../location_photos/paris.jpg'
 
-function WorldMap() {
-  return <img src={MapImage} alt="Logo" resizeMode="cover" />;
-}
+// function WorldMap() {
+//   return <img src={MapImage} alt="Logo" resizeMode="cover" />;
+// }
 
 function ParentMap() {
 
@@ -23,18 +23,21 @@ function ParentMap() {
   return (
     //all-containing component
     <div class="mapcontainer">
+
         <div class="mapfunction">
             {/* <WorldMap /> */}
         </div>
-      <div class="londonbutton">
+        
+      <div class="torontobutton">
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('London')}
+          onClick={() => handleButton('Toronto')}
         >
-          London
+          Toronto
         </Button>
       </div>
+
       <div class="parisbutton">
         <Button
           variant="contained"
@@ -44,11 +47,57 @@ function ParentMap() {
           Paris
         </Button>
       </div>
-      <div class="nycbutton">
-        <Button variant="contained" color="primary">
-          New York
+
+      <div class="vancouverbutton">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleButton('Vancouver')}
+        >
+          Vancouver
         </Button>
       </div>
+
+      <div class="cairobutton">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleButton('Cairo')}
+        >
+          Cairo
+        </Button>
+      </div>
+
+      <div class="beijingbutton">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleButton('Beijing')}
+        >
+          Beijing
+        </Button>
+      </div>
+
+      <div class="sydneybutton">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleButton('Sydney')}
+        >
+          Sydney
+        </Button>
+      </div>
+
+      <div class="saopaulobutton">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleButton('Sao Paulo')}
+        >
+          Sao Paulo
+        </Button>
+      </div>
+
     </div>
     //end of all-containing component
   );
