@@ -63,7 +63,7 @@ export const MakeAnAlias = async (userId, aliasName) => {
     let alias = aliasName;
 
     try {
-        let requestURI = `/${userId}/alias`;
+        let requestURI = `/players/${userId}/alias`;
         let res = await baseClient.post(requestURI, alias)
         console.log(res)
         return res.data;
@@ -80,7 +80,7 @@ export const MakeAnAlias = async (userId, aliasName) => {
 export const GetCurrentAlias = async (userId, aliasName) => {
 
     try {
-        let requestURI = `/${userId}/alias/current`;
+        let requestURI = `/players/${userId}/alias/current`;
         let res = await baseClient.get(requestURI)
         console.log(res)
         return res.data;
@@ -97,7 +97,7 @@ export const GetCurrentAlias = async (userId, aliasName) => {
 export const GetLocationName = async (locationId) => {
 
     try {
-        let requestURI = `/${locationId}`;
+        let requestURI = `/location/${locationId}`;
         let res = await baseClient.get(requestURI)
         console.log(res)
         return res.data;
