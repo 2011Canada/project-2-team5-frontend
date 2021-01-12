@@ -76,3 +76,37 @@ export const MakeAnAlias = async (userId, aliasName) => {
         }
     }
 }
+
+export const GetCurrentAlias = async (userId, aliasName) => {
+
+    try {
+        let requestURI = `/${userId}/alias/current`;
+        let res = await baseClient.get(requestURI)
+        console.log(res)
+        return res.data;
+
+    } catch(e) {
+        if (e.response) {
+            console.log(e)
+        } else {
+            console.log("Failed to send request.")
+        }
+    }
+}
+
+export const GetLocationName = async (locationId) => {
+
+    try {
+        let requestURI = `/${locationId}`;
+        let res = await baseClient.get(requestURI)
+        console.log(res)
+        return res.data;
+
+    } catch(e) {
+        if (e.response) {
+            console.log(e)
+        } else {
+            console.log("Failed to send request.")
+        }
+    }
+}

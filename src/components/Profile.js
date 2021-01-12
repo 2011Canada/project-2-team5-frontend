@@ -15,7 +15,7 @@ import { auth } from '../actions';
 import { Redirect } from 'react-router';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
-import { MakeAnAlias } from '../utils/uri-fuctions.js';
+import { MakeAnAlias, GetLocationName, GetCurrentAlias } from '../utils/uri-fuctions.js';
 
 function Copyright() {
     return (
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         background: '#242422',
         width: '100vw',
-        height: '100vh',
+        height: '100',
         color: 'white',
     },
     paper: {
@@ -78,7 +78,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Profile() {
+    
+    const classes = useStyles();
+    
     //const user = useSelector((state) => state.authenticated);
+    
     const userOld = {
         "userId": 7,
         "firstName": "Heng",
@@ -92,20 +96,20 @@ export default function Profile() {
     };
     const [user, setUser] = useState(userOld);
 
-    const classes = useStyles();
+    const [aliasName, setAliasName] = useState("");
 
+    const currentLocation = GetLocationName(user.currentLocationId);
 
+    const currentAlias = GetCurrentAlias(user.userId);
 
     const dispatch = useDispatch();
 
     function handleSubmit(event) {
         event.preventDefault();
 
-        const aliasName = {
-            newAlias,
-        };
+        //const aliasName = event.target.value;
 
-        MakeAnAlias(user.userId, aliasName.newAlias)
+        MakeAnAlias(user.userId, aliasName);
         
     }
 
@@ -125,7 +129,8 @@ export default function Profile() {
     //Redirect to="/dashboard" (
     //   <p />
     // ) :
-    console.log(user);
+    
+    //console.log(user);
 
     return user && (
         <div className={classes.root}>
@@ -247,7 +252,7 @@ export default function Profile() {
                         }}
                     />
                     <TextField
-                        defaultValue={user.currentLocationId}
+                        defaultValue={currentLocation}
                         variant="outlined"
                         margin="normal"
                         required
@@ -272,7 +277,7 @@ export default function Profile() {
                         }}
                     />
                     <TextField
-                        defaultValue="Call some function"
+                        defaultValue={currentAlias}
                         variant="outlined"
                         margin="normal"
                         required
@@ -297,9 +302,10 @@ export default function Profile() {
                         }}
                     />
                     <form className={classes.form} noValidate onSubmit={handleSubmit}>
-                        <h3 backgroundColor="Black">Create New Alias</h3>
+                        <h3>Create New Alias</h3>
                         <TextField
-                            defaultValue="Alias Name"
+                            placeholder="Alias Name"
+                            onChange={setAliasName}
                             variant="outlined"
                             margin="normal"
                             required
