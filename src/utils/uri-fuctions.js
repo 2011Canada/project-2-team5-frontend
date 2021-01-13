@@ -5,7 +5,6 @@ export const GetNextLocation = async (nextId) => {
     try {
         let requestURI = '/locations/' + nextId;
         let res = await baseClient.get(requestURI)
-        console.log(res)
         return res.data;
 
     } catch(e) {
@@ -103,7 +102,6 @@ export const GetLocationName = async (locationId) => {
     try {
         let requestURI = `/location/${locationId}`;
         let res = await baseClient.get(requestURI)
-        console.log(res)
         return res.data;
 
     } catch(e) {

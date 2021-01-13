@@ -11,7 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import CameraIcon from '@material-ui/icons/Camera';
 import PeopleIcon from '@material-ui/icons/People';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -20,6 +20,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import LocationDrawerUsersTable from './LocationDrawerUsersTable';
 import {GetNextLocation, HandleHackRequest} from '../../utils/uri-fuctions.js';
+import {userAction} from '../../actions/index.js';
 
 const drawerMaxWidth = '600px'
 const useStyles = makeStyles({
@@ -39,6 +40,7 @@ const LocationDrawer = (props) => {
   const classes = useStyles();
 
   const user = useSelector((state) => state.authenticated);             //this is the user information (redux)
+  const dispatch = useDispatch();
 
   const [state, setState] = React.useState({left: false});              //this is the drawer state
   const [currentView, setCurrentView] = React.useState('main');         //this is the page state within the drawer
@@ -53,6 +55,7 @@ const LocationDrawer = (props) => {
   const [location, setLocation] = React.useState({});
   const [adjacentLocation1, setAdjacentLocation1] = React.useState({});
   const [adjacentLocation2, setAdjacentLocation2] = React.useState({});
+  const [locationChangeNotifier, notifyLocationChange] = React.useState(0);
 
   const swapCurrentView = () => {
     if (currentView === 'main') {
@@ -66,7 +69,13 @@ const LocationDrawer = (props) => {
 
   // TODO: I need to update the users current location and close the drawer. 
   // But, I don't know how to do that with Heng's redux storage (ASK FOR HELP)
-  const changeLocation = async (nextId) => {
+  const changeLocation = async (locationId) => {
+    console.log("take action!!!");
+    user.currentLocationId = locationId;
+    //dispatch(userAction.updateLocation(user));
+    dispatch(userAction.updateLocation(user));
+    notifyLocationChange(locationChangeNotifier + 1);
+    console.log(user)
   }
 
 
@@ -80,7 +89,6 @@ const LocationDrawer = (props) => {
   //updates the DOM
   useEffect(() => {
     console.log("in useEffect hook");
-
     if (hacked && aHackToStopHack === false) {
       //TODO: 
       //  - right now this shows nothing, just calls the request
@@ -110,7 +118,7 @@ const LocationDrawer = (props) => {
       grabLocationData();
     }
 
-  }, [currentView, hacked, aHackToStopHack]);
+  }, [currentView, hacked, aHackToStopHack, grabbedLocation, locationChangeNotifier]);
 
 
 
@@ -218,6 +226,7 @@ const LocationDrawer = (props) => {
       title = `Are you sure you want to travel to ${adjacentLocation2.locationName}?`
       description = `Your movement will be put on cooldown.`
     }
+
 
     return (
       <Dialog

@@ -2,7 +2,7 @@ import React from 'react';
 // import MapImage from './worldmap.jpg';
 import './Map.css';
 import Button from '@material-ui/core/Button';
-import LocationDrawer from '../LocationDrawer';
+import LocationDrawer from './LocationDrawer';
 
 import paris_photo from '../../location_photos/paris.jpg'
 
@@ -107,19 +107,7 @@ function ParentMap() {
 WHAT FOLLOWS IS THE TEST DATA FOR THE DUMMY VERSION OF THE LOCATION DRAWER
 */
 
-let testLocation = {
-  id: 0,
-  locationName: 'Paris',
-  description: 'This is a test description of Paris',
-  adjacent: [
-    { id: 0, name: 'London' },
-    { id: 1, name: 'Berlin' },
-  ],
-  image: paris_photo,
-};
 
-//TODO
-let setLocation = () => {};
 
 /*
 WHAT FOLLOWS IS THE EXPORTED FUNCTION, WHICH TESTS THE DUMMY VERSION OF THE LOCATION DRAWER
@@ -130,7 +118,7 @@ function SuperParent(){
     return(
       <div>
         <ParentMap />
-        <LocationDrawer location={testLocation} setLocation={setLocation} />
+        <LocationDrawer locationId={2} />
       </div>
     );
   }

@@ -16,7 +16,7 @@ import Profile from './components/Profile';
 import Header from './components/Header';
 
 import paris_photo from './location_photos/paris.jpg';
-import LocationDrawer from './components/LocationDrawer';
+import LocationDrawer from './components/Map/LocationDrawer';
 const App = () => {
   // const theme = createMuiTheme({
   //   palette: {
@@ -31,31 +31,6 @@ const App = () => {
   //   },
   // });
 
-  let testLocation = {
-    id: 0,
-    locationName: 'Paris',
-    description: 'This is a test description of Paris',
-    adjacent: [
-      { id: 0, name: 'London' },
-      { id: 1, name: 'Berlin' },
-    ],
-    image: paris_photo,
-  };
-
-  let testLocation2 = {
-    id: 1,
-    locationName: 'Berlin',
-    description: 'This is a test description of Berlin',
-    adjacent: [
-      { id: 2, name: 'Paris' },
-      { id: 3, name: 'Rome' },
-    ],
-    image: {},
-  };
-
-  //TODO
-  let setLocation = () => {};
-
   return (
     // <ThemeProvider theme={theme}>
     <BrowserRouter>
@@ -66,8 +41,14 @@ const App = () => {
       <Route path="/profile" exact component={Profile} />
       <Route path="/map" exact component={Map} />
       <Route path="/locationTester">
-        <LocationDrawer location={testLocation} setLocation={setLocation} />
-        <LocationDrawer location={testLocation2} setLocation={setLocation} />
+        <LocationDrawer locationId={1} />
+        <LocationDrawer locationId={2} />
+        <LocationDrawer locationId={3} />
+        <LocationDrawer locationId={4} />
+        <LocationDrawer locationId={5} />
+        <LocationDrawer locationId={6} />
+        <LocationDrawer locationId={7} />
+
       </Route>
       {/* <Route
             path="/dashboard"
