@@ -58,3 +58,59 @@ export const HandleHackRequest = async (userId, locationId) => {
         }
     }
 }
+
+export const MakeAnAlias = async (userId, aliasName) => {
+    let alias = aliasName;
+
+    try {
+        let requestURI = `/players/${userId}/alias`;
+        let res = await baseClient.post(requestURI, alias)
+        console.log(res.json);
+        return res.data;
+        
+
+    } catch(e) {
+        if (e.response) {
+            console.log(e)
+        } else {
+            console.log("Failed to send request.")
+        }
+    }
+}
+
+export const GetCurrentAlias = async (userId) => {
+
+    try {
+        let requestURI = `/players/${userId}/alias/current`;
+        let res = await baseClient.get(requestURI)
+        console.log(res.data)
+        let alias = res.data;
+        console.log(alias.name);
+        return alias.name;
+
+
+    } catch(e) {
+        //if (e.response) {
+            console.log(e)
+        //} else {
+        //    console.log("Failed to send request.")
+        //}
+    }
+}
+
+export const GetLocationName = async (locationId) => {
+
+    try {
+        let requestURI = `/location/${locationId}`;
+        let res = await baseClient.get(requestURI)
+        console.log(res)
+        return res.data;
+
+    } catch(e) {
+        if (e.response) {
+            console.log(e)
+        } else {
+            console.log("Failed to send request.")
+        }
+    }
+}
