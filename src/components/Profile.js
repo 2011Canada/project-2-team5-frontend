@@ -84,7 +84,7 @@ export default function Profile() {
     //const user = useSelector((state) => state.authenticated);
     
     const userOld = {
-        "userId": 7,
+        "userId": 2,
         "firstName": "Heng",
         "lastName": "Wang",
         "userName": "HengWang",
@@ -96,34 +96,31 @@ export default function Profile() {
     };
     const [user, setUser] = useState(userOld);
 
-    const [aliasName, setAliasName] = useState("");
+    const [newAliasName, setNewAliasName] = useState("");
 
     const currentLocation = GetLocationName(user.currentLocationId);
 
     const currentAlias = GetCurrentAlias(user.userId);
+    console.log(`currentAlias = ${currentAlias}`)
 
     const dispatch = useDispatch();
 
+    function changeHandler(event) {
+        const newName =  event.target.value;
+        setNewAliasName(newName);
+    };
+    
     function handleSubmit(event) {
         event.preventDefault();
-
-        //const aliasName = event.target.value;
-
-        MakeAnAlias(user.userId, aliasName);
-        
-    }
+        MakeAnAlias(user.userId, newAliasName);
+    };
 
     function handleOnChange(event) {
-
         const value = event.target.value;
         const name = event.target.name;
-
         user[name] = value;
-        
         setUser(user);
-
         console.log(user)
-
     };
 
     //Redirect to="/dashboard" (
@@ -305,7 +302,7 @@ export default function Profile() {
                         <h3>Create New Alias</h3>
                         <TextField
                             placeholder="Alias Name"
-                            onChange={setAliasName}
+                            onChange={(e) => changeHandler(e)}
                             variant="outlined"
                             margin="normal"
                             required

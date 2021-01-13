@@ -65,8 +65,9 @@ export const MakeAnAlias = async (userId, aliasName) => {
     try {
         let requestURI = `/players/${userId}/alias`;
         let res = await baseClient.post(requestURI, alias)
-        console.log(res)
+        console.log(res.json);
         return res.data;
+        
 
     } catch(e) {
         if (e.response) {
@@ -77,20 +78,23 @@ export const MakeAnAlias = async (userId, aliasName) => {
     }
 }
 
-export const GetCurrentAlias = async (userId, aliasName) => {
+export const GetCurrentAlias = async (userId) => {
 
     try {
         let requestURI = `/players/${userId}/alias/current`;
         let res = await baseClient.get(requestURI)
-        console.log(res)
-        return res.data;
+        console.log(res.data)
+        let alias = res.data;
+        console.log(alias.name);
+        return alias.name;
+
 
     } catch(e) {
-        if (e.response) {
+        //if (e.response) {
             console.log(e)
-        } else {
-            console.log("Failed to send request.")
-        }
+        //} else {
+        //    console.log("Failed to send request.")
+        //}
     }
 }
 
