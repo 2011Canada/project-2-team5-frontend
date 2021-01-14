@@ -19,10 +19,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import LocationDrawerUsersTable from './LocationDrawerUsersTable';
-import {GetNextLocation, HandleHackRequest} from '../../utils/uri-fuctions.js';
-import {userAction} from '../../actions/index.js';
+import {
+  GetNextLocation,
+  HandleHackRequest,
+} from '../../utils/uri-fuctions.js';
+import { userAction } from '../../actions/index.js';
 
-const drawerMaxWidth = '600px'
+const drawerMaxWidth = '600px';
 const useStyles = makeStyles({
   root: {
     display: 'flex',
@@ -39,19 +42,18 @@ const useStyles = makeStyles({
 const LocationDrawer = (props) => {
   const classes = useStyles();
 
-  const user = useSelector((state) => state.authenticated);             //this is the user information (redux)
+  const user = useSelector((state) => state.authenticated); //this is the user information (redux)
   const dispatch = useDispatch();
 
-  const [state, setState] = React.useState({left: false});              //this is the drawer state
-  const [currentView, setCurrentView] = React.useState('main');         //this is the page state within the drawer
+  const [state, setState] = React.useState({ left: false }); //this is the drawer state
+  const [currentView, setCurrentView] = React.useState('main'); //this is the page state within the drawer
 
-  const [openDialog, setDialogOpen] = React.useState(false);            //this is the dialog state
-  const [currentDialog, setCurrentDialog] = React.useState('');         //this is the dialog parameter (that specifies which button is pressed)
+  const [openDialog, setDialogOpen] = React.useState(false); //this is the dialog state
+  const [currentDialog, setCurrentDialog] = React.useState(''); //this is the dialog parameter (that specifies which button is pressed)
 
-  const [hacked, setHacked] = React.useState(false);                    //this notifies if the user hacked the city
-  const [aHackToStopHack, setAHackToStopHack] = React.useState(false);  //this stops the update function from continually calling the hack function
+  const [hacked, setHacked] = React.useState(false); //this notifies if the user hacked the city
+  const [aHackToStopHack, setAHackToStopHack] = React.useState(false); //this stops the update function from continually calling the hack function
 
-  const [grabbedLocation, setGrabbedLocation] = React.useState(false);
   const [location, setLocation] = React.useState({});
   const [adjacentLocation1, setAdjacentLocation1] = React.useState({});
   const [adjacentLocation2, setAdjacentLocation2] = React.useState({});
@@ -60,22 +62,18 @@ const LocationDrawer = (props) => {
   const swapCurrentView = () => {
     if (currentView === 'main') {
       setCurrentView('userView');
-    }
-    else {
+    } else {
       setCurrentView('main');
     }
-  }
+  };
 
-
-  // TODO: close the drawer. 
+  // TODO: close the drawer.
   const changeLocation = async (locationId) => {
-
     user.currentLocationId = locationId;
     dispatch(userAction.updateLocation(user));
 
     notifyLocationChange(locationChangeNotifier + 1);
-  }
-
+  };
 
   const changeHackStatus = () => {
     if (!hacked) {
@@ -83,44 +81,50 @@ const LocationDrawer = (props) => {
     }
   };
 
-
   //updates the DOM
   useEffect(() => {
-    console.log("in useEffect hook");
+    console.log('in useEffect hook');
     if (hacked && aHackToStopHack === false) {
-      //TODO: 
+      //TODO:
       //  - right now this shows nothing, just calls the request
       //  - contract success or failure should show
-      //  - need to have the contracts tied to the user first 
+      //  - need to have the contracts tied to the user first
       const updateWithHack = async () => {
-        await(HandleHackRequest());
-      }
+        await HandleHackRequest();
+      };
       updateWithHack();
       setAHackToStopHack(true);
     }
 
     //Gets the location data from the server
-    if (!grabbedLocation && props.activeLocation > 0) {
+    if (props.activeLocation > 0) {
       const grabLocationData = async () => {
-        let currentLocationData = await(GetNextLocation(props.activeLocation));
+        let currentLocationData = await GetNextLocation(props.activeLocation);
         setLocation(currentLocationData);
 
-        console.log(currentLocationData)
+        console.log(currentLocationData);
 
-        let adjacentLocationData1 = await(GetNextLocation(currentLocationData.adjacentLocation1));
-        let adjacentLocationData2 = await(GetNextLocation(currentLocationData.adjacentLocation2));
+        let adjacentLocationData1 = await GetNextLocation(
+          currentLocationData.adjacentLocation1
+        );
+        let adjacentLocationData2 = await GetNextLocation(
+          currentLocationData.adjacentLocation2
+        );
         setAdjacentLocation1(adjacentLocationData1);
         setAdjacentLocation2(adjacentLocationData2);
+      };
 
-        setGrabbedLocation(true);
-      }
-
+      setState({ left: true });
       grabLocationData();
     }
+  }, [
+    currentView,
+    hacked,
+    aHackToStopHack,
 
-  }, [currentView, hacked, aHackToStopHack, grabbedLocation, locationChangeNotifier, props.activeLocation]);
-
-
+    locationChangeNotifier,
+    props.activeLocation,
+  ]);
 
   //various dialog openers
   const handleHackDialogOpen = () => {
@@ -136,13 +140,11 @@ const LocationDrawer = (props) => {
     setCurrentDialog('move2');
   };
 
-
   //closes the dialog
   const handleDialogClose = () => {
     setDialogOpen(false);
     setCurrentDialog('');
   };
-
 
   //handles the confirmed actions from the dialogs
   const handleDialogYes = () => {
@@ -160,54 +162,83 @@ const LocationDrawer = (props) => {
         break;
     }
 
-    toggleDrawer('left', false)
+    toggleDrawer('left', false);
     handleDialogClose();
     setCurrentDialog('');
   };
 
-
   //opens and closes the drawer
   const toggleDrawer = (anchor, open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
       return;
     }
     setState({ ...state, [anchor]: open });
   };
 
-
   //displays the actions (list of buttons) part of the drawer
   const LocationActions = () => {
     return (
-    <div className={clsx(classes.list)} role="presentation">
-      <h3 style={{marginLeft:'40px'}}>Actions</h3>
-      {props.activeLocation === user.currentLocationId ? 
-      (
-        <List style={{marginLeft:'40px'}}>
-            <ListItem button key='Hack' disabled={hacked} onClick={handleHackDialogOpen}>
-                <ListItemIcon> <CameraIcon /></ListItemIcon>
-                <ListItemText primary='Hack' />
+      <div className={clsx(classes.list)} role="presentation">
+        <h3 style={{ marginLeft: '40px' }}>Actions</h3>
+        {props.activeLocation === user.currentLocationId ? (
+          <List style={{ marginLeft: '40px' }}>
+            <ListItem
+              button
+              key="Hack"
+              disabled={hacked}
+              onClick={handleHackDialogOpen}
+            >
+              <ListItemIcon>
+                {' '}
+                <CameraIcon />
+              </ListItemIcon>
+              <ListItemText primary="Hack" />
             </ListItem>
-            <ListItem button onClick={swapCurrentView} key='View Users in City'>
-                <ListItemIcon><PeopleIcon /></ListItemIcon>
-                <ListItemText primary='View Users in City' />
+            <ListItem button onClick={swapCurrentView} key="View Users in City">
+              <ListItemIcon>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary="View Users in City" />
             </ListItem>
-            <ListItem button onClick={handleMove1DialogOpen} key={'Travel to ' + adjacentLocation1.locationName}>
-                <ListItemIcon><FlightTakeoffIcon /></ListItemIcon>
-                <ListItemText primary={'Travel to ' + adjacentLocation1.locationName} />
+            <ListItem
+              button
+              onClick={handleMove1DialogOpen}
+              key={'Travel to ' + adjacentLocation1.locationName}
+            >
+              <ListItemIcon>
+                <FlightTakeoffIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={'Travel to ' + adjacentLocation1.locationName}
+              />
             </ListItem>
-            <ListItem button onClick={handleMove2DialogOpen} key={'Travel to ' + adjacentLocation2.locationName}>
-                <ListItemIcon><FlightTakeoffIcon /></ListItemIcon>
-                <ListItemText primary={'Travel to ' + adjacentLocation2.locationName} />
+            <ListItem
+              button
+              onClick={handleMove2DialogOpen}
+              key={'Travel to ' + adjacentLocation2.locationName}
+            >
+              <ListItemIcon>
+                <FlightTakeoffIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={'Travel to ' + adjacentLocation2.locationName}
+              />
             </ListItem>
-        </List>
-      ) : (
-        <div style={{marginLeft:'40px'}}>
-          <p>You cannot take any actions here, because you are not in this location.</p>
-        </div>
-      )}
-    </div>
-  )};
-
+          </List>
+        ) : (
+          <div style={{ marginLeft: '40px' }}>
+            <p>
+              You cannot take any actions here, because you are not in this
+              location.
+            </p>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   // NOTE: Maybe think about putting this in its own class
   // displays the dialog
@@ -215,19 +246,16 @@ const LocationDrawer = (props) => {
     let title = '';
     let description = '';
     if (currentDialog === 'hack') {
-      title = `Are you sure you want to hack ${location.locationName}?`
+      title = `Are you sure you want to hack ${location.locationName}?`;
       description = `This will reveal all active aliases in this location.
-      If you do not reveal your target with this hack, your contract will fail, and your company reputation will go down.`
+      If you do not reveal your target with this hack, your contract will fail, and your company reputation will go down.`;
+    } else if (currentDialog === 'move1') {
+      title = `Are you sure you want to travel to ${adjacentLocation1.locationName}?`;
+      description = `Your movement will be put on cooldown.`;
+    } else if (currentDialog === 'move2') {
+      title = `Are you sure you want to travel to ${adjacentLocation2.locationName}?`;
+      description = `Your movement will be put on cooldown.`;
     }
-    else if (currentDialog === 'move1') {
-      title = `Are you sure you want to travel to ${adjacentLocation1.locationName}?`
-      description = `Your movement will be put on cooldown.`
-    }
-    else if (currentDialog === 'move2') {
-      title = `Are you sure you want to travel to ${adjacentLocation2.locationName}?`
-      description = `Your movement will be put on cooldown.`
-    }
-
 
     return (
       <Dialog
@@ -238,7 +266,9 @@ const LocationDrawer = (props) => {
       >
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">{description}</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            {description}
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDialogClose} color="primary">
@@ -249,27 +279,58 @@ const LocationDrawer = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-    )
-  }
+    );
+  };
 
-  
   return (
     <div>
-        <React.Fragment>
-          <Button className={classes.drawer} onClick={toggleDrawer('left', true)}>{location.locationName}</Button>
-          <Drawer anchor={'left'} open={state.left} onClose={toggleDrawer('left', false)} 
-                classes={{
-                paper: classes.drawerPaper,}}>
-            <h1 style={{marginLeft:'auto', marginRight:'auto'}}>{location.locationName}</h1>
-            <img src={location.image} alt={location.locationName} style={{borderRadius: '5%', maxWidth: '50%', maxHeight: '50%', marginLeft: 'auto', marginRight:'auto'}} />
-            <p style={{marginLeft:'10%', marginRight: '10%', marginTop:'5%', marginBottom:'5%'}}>{location.description}</p>
-            <Divider style={{marginLeft: '5%', marginRight: '5%'}} />
-            {currentView === 'main' ? <LocationActions /> : <LocationDrawerUsersTable locationId={location.locationId} swapper={swapCurrentView}/>}
-            <DialogPopup />
-          </Drawer>
-        </React.Fragment>
+      <React.Fragment>
+        <Drawer
+          anchor={'left'}
+          open={state.left}
+          onClose={toggleDrawer('left', false)}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <h1 style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+            {location.locationName}
+          </h1>
+          <img
+            src={location.image}
+            alt={location.locationName}
+            style={{
+              borderRadius: '5%',
+              maxWidth: '50%',
+              maxHeight: '50%',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+          />
+          <p
+            style={{
+              marginLeft: '10%',
+              marginRight: '10%',
+              marginTop: '5%',
+              marginBottom: '5%',
+            }}
+          >
+            {location.description}
+          </p>
+          <Divider style={{ marginLeft: '5%', marginRight: '5%' }} />
+          {currentView === 'main' ? (
+            <LocationActions />
+          ) : (
+            <LocationDrawerUsersTable
+              locationId={location.locationId}
+              swapper={swapCurrentView}
+            />
+          )}
+          <DialogPopup />
+        </Drawer>
+      </React.Fragment>
     </div>
   );
-}
+};
 
 export default LocationDrawer;

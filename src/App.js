@@ -48,17 +48,12 @@ const App = () => {
         <LocationDrawer locationId={5} />
         <LocationDrawer locationId={6} />
         <LocationDrawer locationId={7} />
-
       </Route>
       {/* <Route
             path="/dashboard"
             exact
             component={requireAuth(myLayout(DashBoard, 'Dash Board', 1))}
           /> */}
-
-      <Link to="/locationTester">Location Tester</Link>
-      <br />
-      <Link to="/">Home</Link>
     </BrowserRouter>
     // </ThemeProvider>
   );
