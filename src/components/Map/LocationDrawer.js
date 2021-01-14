@@ -67,15 +67,13 @@ const LocationDrawer = (props) => {
   }
 
 
-  // TODO: I need to update the users current location and close the drawer. 
-  // But, I don't know how to do that with Heng's redux storage (ASK FOR HELP)
+  // TODO: close the drawer. 
   const changeLocation = async (locationId) => {
-    console.log("take action!!!");
+
     user.currentLocationId = locationId;
-    //dispatch(userAction.updateLocation(user));
     dispatch(userAction.updateLocation(user));
+
     notifyLocationChange(locationChangeNotifier + 1);
-    console.log(user)
   }
 
 
@@ -102,10 +100,12 @@ const LocationDrawer = (props) => {
     }
 
     //Gets the location data from the server
-    if (!grabbedLocation) {
+    if (!grabbedLocation && props.activeLocation > 0) {
       const grabLocationData = async () => {
-        let currentLocationData = await(GetNextLocation(props.locationId));
+        let currentLocationData = await(GetNextLocation(props.activeLocation));
         setLocation(currentLocationData);
+
+        console.log(currentLocationData)
 
         let adjacentLocationData1 = await(GetNextLocation(currentLocationData.adjacentLocation1));
         let adjacentLocationData2 = await(GetNextLocation(currentLocationData.adjacentLocation2));
@@ -118,7 +118,7 @@ const LocationDrawer = (props) => {
       grabLocationData();
     }
 
-  }, [currentView, hacked, aHackToStopHack, grabbedLocation, locationChangeNotifier]);
+  }, [currentView, hacked, aHackToStopHack, grabbedLocation, locationChangeNotifier, props.activeLocation]);
 
 
 
@@ -160,6 +160,7 @@ const LocationDrawer = (props) => {
         break;
     }
 
+    toggleDrawer('left', false)
     handleDialogClose();
     setCurrentDialog('');
   };
@@ -179,7 +180,7 @@ const LocationDrawer = (props) => {
     return (
     <div className={clsx(classes.list)} role="presentation">
       <h3 style={{marginLeft:'40px'}}>Actions</h3>
-      {props.locationId === user.currentLocationId ? 
+      {props.activeLocation === user.currentLocationId ? 
       (
         <List style={{marginLeft:'40px'}}>
             <ListItem button key='Hack' disabled={hacked} onClick={handleHackDialogOpen}>
@@ -256,7 +257,7 @@ const LocationDrawer = (props) => {
     <div>
         <React.Fragment>
           <Button className={classes.drawer} onClick={toggleDrawer('left', true)}>{location.locationName}</Button>
-          <Drawer anchor={'left'} open={state['left']} onClose={toggleDrawer('left', false)} 
+          <Drawer anchor={'left'} open={state.left} onClose={toggleDrawer('left', false)} 
                 classes={{
                 paper: classes.drawerPaper,}}>
             <h1 style={{marginLeft:'auto', marginRight:'auto'}}>{location.locationName}</h1>

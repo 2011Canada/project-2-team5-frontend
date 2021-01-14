@@ -1,22 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import MapImage from './worldmap.jpg';
 import './Map.css';
 import Button from '@material-ui/core/Button';
 import LocationDrawer from './LocationDrawer';
 
 import paris_photo from '../../location_photos/paris.jpg'
+import { useSelector } from 'react-redux';
 
 // function WorldMap() {
 //   return <img src={MapImage} alt="Logo" resizeMode="cover" />;
 // }
 
 function ParentMap() {
-
 /*HERE BEGINS THE FUNCTION THAT FIRES WHEN THE BUTTONS ARE PRESSED*/
+    const [activeLocation, setActiveLocation] = React.useState(0);
 
-  const handleButton = (location) => {
-    console.log(location);
-  };
+    function handleButton(nextActiveLocation) { 
+      setActiveLocation(nextActiveLocation);
+    }
+
+    
+    //TODO: test
+    useState(() => {
+    }, [activeLocation]);
+
 
 /*END OF FUNCTION THAT FIRES WHEN THE BUTTONS ARE PRESSED*/
 
@@ -24,15 +31,16 @@ function ParentMap() {
     //all-containing component
     <div class="mapcontainer">
 
-        <div class="mapfunction">
+        <div class="mapfunction"> 
             {/* <WorldMap /> */}
+            <LocationDrawer activeLocation={activeLocation} />
         </div>
         
       <div class="torontobutton">
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('Toronto')}
+          onClick={() => handleButton(1)}
         >
           Toronto
         </Button>
@@ -42,7 +50,7 @@ function ParentMap() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('Paris')}
+          onClick={() => handleButton(2)}
         >
           Paris
         </Button>
@@ -52,7 +60,7 @@ function ParentMap() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('Vancouver')}
+          onClick={() => handleButton(3)}
         >
           Vancouver
         </Button>
@@ -62,7 +70,7 @@ function ParentMap() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('Cairo')}
+          onClick={() => handleButton(4)}
         >
           Cairo
         </Button>
@@ -72,7 +80,7 @@ function ParentMap() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('Beijing')}
+          onClick={() => handleButton(5)}
         >
           Beijing
         </Button>
@@ -82,7 +90,7 @@ function ParentMap() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('Sydney')}
+          onClick={() => handleButton(6)}
         >
           Sydney
         </Button>
@@ -92,7 +100,7 @@ function ParentMap() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('Sao Paulo')}
+          onClick={() => handleButton(7)}
         >
           Sao Paulo
         </Button>
@@ -118,7 +126,6 @@ function SuperParent(){
     return(
       <div>
         <ParentMap />
-        <LocationDrawer locationId={2} />
       </div>
     );
   }
