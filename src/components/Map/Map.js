@@ -14,9 +14,11 @@ import { useSelector } from 'react-redux';
 function ParentMap() {
   /*HERE BEGINS THE FUNCTION THAT FIRES WHEN THE BUTTONS ARE PRESSED*/
   const [activeLocation, setActiveLocation] = React.useState(0);
+  const [grabbedLocation, setGrabbedLocation] = React.useState(false);
 
   function handleButton(nextActiveLocation) {
     setActiveLocation(nextActiveLocation);
+    setGrabbedLocation(true);
   }
 
   //TODO: test
@@ -29,7 +31,7 @@ function ParentMap() {
     <div class="mapcontainer">
       <div class="mapfunction">
         {/* <WorldMap /> */}
-        <LocationDrawer activeLocation={activeLocation} />
+        <LocationDrawer activeLocation={activeLocation} grabbedLocation={grabbedLocation} setGrabbedLocation={setGrabbedLocation} />
       </div>
 
       <div class="torontobutton">

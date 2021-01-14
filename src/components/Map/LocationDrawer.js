@@ -57,7 +57,7 @@ const LocationDrawer = (props) => {
   const [location, setLocation] = React.useState({});
   const [adjacentLocation1, setAdjacentLocation1] = React.useState({});
   const [adjacentLocation2, setAdjacentLocation2] = React.useState({});
-  const [locationChangeNotifier, notifyLocationChange] = React.useState(0);
+
 
   const swapCurrentView = () => {
     if (currentView === 'main') {
@@ -67,13 +67,15 @@ const LocationDrawer = (props) => {
     }
   };
 
-  // TODO: close the drawer.
+  
   const changeLocation = async (locationId) => {
     user.currentLocationId = locationId;
     dispatch(userAction.updateLocation(user));
 
-    notifyLocationChange(locationChangeNotifier + 1);
+    setState({left:false});
+    props.setGrabbedLocation(false);
   };
+
 
   const changeHackStatus = () => {
     if (!hacked) {
@@ -81,9 +83,12 @@ const LocationDrawer = (props) => {
     }
   };
 
+
   //updates the DOM
   useEffect(() => {
     console.log('in useEffect hook');
+
+    //gets the hack response from the server
     if (hacked && aHackToStopHack === false) {
       //TODO:
       //  - right now this shows nothing, just calls the request
@@ -96,13 +101,11 @@ const LocationDrawer = (props) => {
       setAHackToStopHack(true);
     }
 
-    //Gets the location data from the server
-    if (props.activeLocation > 0) {
+    //Gets the current location's data from the server
+    if (props.grabbedLocation && props.activeLocation > 0) {
       const grabLocationData = async () => {
         let currentLocationData = await GetNextLocation(props.activeLocation);
         setLocation(currentLocationData);
-
-        console.log(currentLocationData);
 
         let adjacentLocationData1 = await GetNextLocation(
           currentLocationData.adjacentLocation1
@@ -112,18 +115,18 @@ const LocationDrawer = (props) => {
         );
         setAdjacentLocation1(adjacentLocationData1);
         setAdjacentLocation2(adjacentLocationData2);
+
+        setState({ left: true });
       };
 
-      setState({ left: true });
       grabLocationData();
     }
   }, [
     currentView,
     hacked,
     aHackToStopHack,
-
-    locationChangeNotifier,
     props.activeLocation,
+    props.grabbedLocation,
   ]);
 
   //various dialog openers
@@ -144,6 +147,9 @@ const LocationDrawer = (props) => {
   const handleDialogClose = () => {
     setDialogOpen(false);
     setCurrentDialog('');
+
+    props.setGrabbedLocation(false);
+    toggleDrawer('left', false);
   };
 
   //handles the confirmed actions from the dialogs
@@ -162,7 +168,6 @@ const LocationDrawer = (props) => {
         break;
     }
 
-    toggleDrawer('left', false);
     handleDialogClose();
     setCurrentDialog('');
   };
@@ -175,7 +180,9 @@ const LocationDrawer = (props) => {
     ) {
       return;
     }
+    
     setState({ ...state, [anchor]: open });
+    props.setGrabbedLocation(false);
   };
 
   //displays the actions (list of buttons) part of the drawer
@@ -231,8 +238,7 @@ const LocationDrawer = (props) => {
         ) : (
           <div style={{ marginLeft: '40px' }}>
             <p>
-              You cannot take any actions here, because you are not in this
-              location.
+              You must be in this city to take any actions here.
             </p>
           </div>
         )}
