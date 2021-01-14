@@ -8,14 +8,21 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useSelector, useDispatch } from 'react-redux';
 import { auth } from '../actions';
 import { Redirect } from 'react-router';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
-import { MakeAnAlias, GetLocationName, GetCurrentAlias } from '../utils/uri-fuctions.js';
+import { MakeAnAlias, GetLocationName, GetCurrentAlias, GetAllUserAliases } from '../utils/uri-fuctions.js';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import EditProfile from './EditProfile';
@@ -79,6 +86,24 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const StyledTableCell = withStyles((theme) => ({
+    head: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    body: {
+      fontSize: 14,
+    },
+}))(TableCell);
+  
+  const StyledTableRow = withStyles((theme) => ({
+    root: {
+      '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+      },
+    },
+  }))(TableRow);
+
 
 export default function Profile() {
 
@@ -99,6 +124,8 @@ export default function Profile() {
     };
     const [user, setUser] = useState(userOld);
 
+    const [userAliases, setUserAliases] = useState({});
+
     const [newAliasName, setNewAliasName] = useState("");
 
     const [currentAliasName, setCurrentAliasName] = useState("");
@@ -106,6 +133,24 @@ export default function Profile() {
     const [currentLocationName, setCurrentLocationName] = useState("");
 
     const dispatch = useDispatch();
+
+    const updateUserAliases = async () => {
+          let allUserAliases = await (GetAllUserAliases(user.userId));
+          setUserAliases(allUserAliases);
+      }
+
+    const getUserAliases = () => {
+        updateUserAliases();
+        return (
+          <div>
+            <UserAliasesTable />
+          </div>
+        )
+    }
+
+    function createData(id, name, currentLevel, state) {
+       return { id, name, currentLevel, state };
+    }
 
     function changeHandler(event) {
         const newName = event.target.value;
@@ -158,6 +203,43 @@ export default function Profile() {
         console.log(user)
     };
 
+    
+    const UserAliasesTable = () => {
+        let rows = [];
+    
+        //TEST ROW
+        rows.push({})
+    
+        for (let i = 0; i < userAliases.length; i++) {
+          rows.push(createData(userAliases[i].alias_id, userAliases[i].alias_name, userAliases[i].current_level, userAliases[i].state_id));
+        }
+    
+        return (
+          <TableContainer component={Paper} style={{ maxWidth: '90%', marginLeft: 'auto', marginRight: 'auto' }}>
+            <Table className={classes.table} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Alias ID</StyledTableCell>
+                  <StyledTableCell align="left">Name</StyledTableCell>
+                  <StyledTableCell align="left">Level</StyledTableCell>
+                  <StyledTableCell align="left">State</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <StyledTableRow key={row.name}>
+                    <StyledTableCell component="th" scope="row">{row.alias_id}</StyledTableCell>
+                    <StyledTableCell align="left">{row.alias_name}</StyledTableCell>
+                    <StyledTableCell align="left">{row.current_level}</StyledTableCell>
+                    <StyledTableCell align="left">{row.state_id}</StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        );
+      }
+    
     //Redirect to="/dashboard" (
     //   <p />
     // ) :
@@ -199,6 +281,10 @@ export default function Profile() {
                         <Link to="/profile/edit">Edit Profile</Link>
                     </BrowserRouter>
                     <br/>
+                    <div>
+                        <h5>Your Aliases</h5>
+                        {getUserAliases()}
+                    </div>
                     <div style={{ border: "1px solid white", width: "100%", borderRadius: "7px", padding: "10px", marginTop: "5px", marginBottom: "5px" }}>
                         <h5 style={{ marginTop: "5px", marginBottom: "5px" }}>Current Alias:</h5>
                         <p style={{ marginTop: "5px", marginBottom: "5px" }}>{currentAliasName}</p>
