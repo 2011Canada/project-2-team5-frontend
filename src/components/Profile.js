@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
+//import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -16,6 +16,9 @@ import { Redirect } from 'react-router';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
 import { MakeAnAlias, GetLocationName, GetCurrentAlias } from '../utils/uri-fuctions.js';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
+
+import EditProfile from './EditProfile';
 
 function Copyright() {
     return (
@@ -78,13 +81,13 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Profile() {
-    
+
     const classes = useStyles();
-    
+
     //const user = useSelector((state) => state.authenticated);
-    
+
     const userOld = {
-        "userId": 2,
+        "userId": 1,
         "firstName": "Heng",
         "lastName": "Wang",
         "userName": "HengWang",
@@ -98,21 +101,53 @@ export default function Profile() {
 
     const [newAliasName, setNewAliasName] = useState("");
 
-    const currentLocation = GetLocationName(user.currentLocationId);
+    const [currentAliasName, setCurrentAliasName] = useState("");
 
-    const currentAlias = GetCurrentAlias(user.userId);
-    console.log(`currentAlias = ${currentAlias}`)
+    const [currentLocationName, setCurrentLocationName] = useState("");
 
     const dispatch = useDispatch();
 
     function changeHandler(event) {
-        const newName =  event.target.value;
+        const newName = event.target.value;
         setNewAliasName(newName);
     };
-    
+
+    // componentDidMount() {
+    //     let currentLocation = GetLocationName(user.currentLocationId);
+    //     console.log(`currentLocation = ${currentLocation}`)
+
+    //     setCurrentLocationName(currentLocation);
+    // }
+
+    useEffect(() => {
+
+        const getLocationName = async () => {
+            let currentLocation = await (GetLocationName(user.currentLocationId));
+            console.log(`currentLocation = ${currentLocation}`)
+
+            setCurrentLocationName(currentLocation);
+        }
+
+        getLocationName();
+
+    }, [currentAliasName]);
+
+    console.log(currentLocationName);
+
     function handleSubmit(event) {
+
         event.preventDefault();
+
         MakeAnAlias(user.userId, newAliasName);
+
+        const updateAliasName = async () => {
+            let currentAlias = await (GetCurrentAlias(user.userId));
+            console.log(`currentAlias = ${currentAlias}`)
+
+            setCurrentAliasName(currentAlias);
+        }
+
+        updateAliasName();
     };
 
     function handleOnChange(event) {
@@ -126,7 +161,7 @@ export default function Profile() {
     //Redirect to="/dashboard" (
     //   <p />
     // ) :
-    
+
     //console.log(user);
 
     return user && (
@@ -137,118 +172,38 @@ export default function Profile() {
                     <Avatar className={classes.avatar}>
                         <LockOutlinedIcon />
                     </Avatar>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h4">
                         {user.firstName} {user.lastName}
                     </Typography>
-
-                    <TextField
-                        onChange={(e) => handleOnChange(e)}
-                        defaultValue={user.userId}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="userId"
-                        label="User ID"
-                        name="userId"
-                        autoFocus
-                        InputLabelProps={{
-                            classes: {
-                                root: classes.cssLabel,
-                                focused: classes.cssFocused,
-                            },
-                        }}
-                        InputProps={{
-                            classes: {
-                                root: classes.cssOutlinedInput,
-                                focused: classes.cssFocused,
-                                notchedOutline: classes.notchedOutline,
-                                input: classes.multilineColor,
-                            },
-                        }}
-                    />
-
-                    <TextField
-                        onChange={(e) => handleOnChange(e)}
-                        defaultValue={user.email}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="email"
-                        label="Email"
-                        type="email"
-                        id="pemail"
-                        autoComplete="current-email"
-                        InputLabelProps={{
-                            classes: {
-                                root: classes.cssLabel,
-                                focused: classes.cssFocused,
-                            },
-                        }}
-                        InputProps={{
-                            classes: {
-                                root: classes.cssOutlinedInput,
-                                focused: classes.cssFocused,
-                                notchedOutline: classes.notchedOutline,
-                                input: classes.multilineColor,
-                            },
-                        }}
-                    />
-                    <TextField
-                        onChange={(e) => handleOnChange(e)}
-                        defaultValue={user.userName}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="username"
-                        label="Username"
-                        name="userName"
-                        autoFocus
-                        InputLabelProps={{
-                            classes: {
-                                root: classes.cssLabel,
-                                focused: classes.cssFocused,
-                            },
-                        }}
-                        InputProps={{
-                            classes: {
-                                root: classes.cssOutlinedInput,
-                                focused: classes.cssFocused,
-                                notchedOutline: classes.notchedOutline,
-                                input: classes.multilineColor,
-                            },
-                        }}
-                    />
-                    <TextField
-                        onChange={(e) => handleOnChange(e)}
-                        defaultValue={user.userPassword}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="userPassword"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        InputLabelProps={{
-                            classes: {
-                                root: classes.cssLabel,
-                                focused: classes.cssFocused,
-                            },
-                        }}
-                        InputProps={{
-                            classes: {
-                                root: classes.cssOutlinedInput,
-                                focused: classes.cssFocused,
-                                notchedOutline: classes.notchedOutline,
-                                input: classes.multilineColor,
-                            },
-                        }}
-                    />
-                    <TextField
+                    <br />
+                    <br />
+                    <div style={{ border: "1px solid white", width: "100%", borderRadius: "7px", padding: "10px", marginTop: "5px", marginBottom: "5px" }}>
+                        <h5 style={{ marginTop: "5px", marginBottom: "5px" }}>User ID:</h5>
+                        <p style={{ marginTop: "5px", marginBottom: "5px" }}>{user.userId}</p>
+                    </div>
+                    <div style={{ border: "1px solid white", width: "100%", borderRadius: "7px", padding: "10px", marginTop: "5px", marginBottom: "5px" }}>
+                        <h5 style={{ marginTop: "5px", marginBottom: "5px" }}>Email:</h5>
+                        <p style={{ marginTop: "5px", marginBottom: "5px" }}>{user.email}</p>
+                    </div>
+                    <div style={{ border: "1px solid white", width: "100%", borderRadius: "7px", padding: "10px", marginTop: "5px", marginBottom: "5px" }}>
+                        <h5 style={{ marginTop: "5px", marginBottom: "5px" }}>Username:</h5>
+                        <p style={{ marginTop: "5px", marginBottom: "5px" }}>{user.userName}</p>
+                    </div>
+                    <div style={{ border: "1px solid white", width: "100%", borderRadius: "7px", padding: "10px", marginTop: "5px", marginBottom: "5px" }}>
+                        <h5 style={{ marginTop: "5px", marginBottom: "5px" }}>Current Location:</h5>
+                        <p style={{ marginTop: "5px", marginBottom: "5px" }}>currentLocationName</p>
+                    </div>
+                    <br/>
+                    <BrowserRouter>
+                        <Route path="/profile/edit" exact component={EditProfile} />
+                        <Link to="/profile/edit">Edit Profile</Link>
+                    </BrowserRouter>
+                    <br/>
+                    <div style={{ border: "1px solid white", width: "100%", borderRadius: "7px", padding: "10px", marginTop: "5px", marginBottom: "5px" }}>
+                        <h5 style={{ marginTop: "5px", marginBottom: "5px" }}>Current Alias:</h5>
+                        <p style={{ marginTop: "5px", marginBottom: "5px" }}>{currentAliasName}</p>
+                    </div>
+                    {/* <TextField
                         defaultValue={currentLocation}
                         variant="outlined"
                         margin="normal"
@@ -272,8 +227,8 @@ export default function Profile() {
                                 input: classes.multilineColor,
                             },
                         }}
-                    />
-                    <TextField
+                    /> */}
+                    {/* <TextField
                         defaultValue={currentAlias}
                         variant="outlined"
                         margin="normal"
@@ -297,7 +252,7 @@ export default function Profile() {
                                 input: classes.multilineColor,
                             },
                         }}
-                    />
+                    /> */}
                     <form className={classes.form} noValidate onSubmit={handleSubmit}>
                         <h3>Create New Alias</h3>
                         <TextField
@@ -326,7 +281,7 @@ export default function Profile() {
                                 },
                             }}
                         />
-                        
+
                         <Button
                             type="submit"
                             fullWidth

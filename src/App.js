@@ -12,7 +12,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Dash from './components/Dash';
 import Profile from './components/Profile';
-
+import EditProfile from './components/EditProfile';
 import Header from './components/Header';
 
 import paris_photo from './location_photos/paris.jpg';
@@ -64,6 +64,7 @@ const App = () => {
       <Route path="/signup" exact component={Signup} />
       <Route path="/dashboard" exact component={requireAuth(Dash)} />
       <Route path="/profile" exact component={Profile} />
+      <Route path="/profile/edit" exact component={EditProfile} />
       <Route path="/map" exact component={Map} />
       <Route path="/locationTester">
         <LocationDrawer location={testLocation} setLocation={setLocation} />

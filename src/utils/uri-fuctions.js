@@ -65,6 +65,7 @@ export const MakeAnAlias = async (userId, aliasName) => {
     try {
         let requestURI = `/players/${userId}/alias`;
         let res = await baseClient.post(requestURI, alias)
+        console.log(res.data);
         console.log(res.json);
         return res.data;
         
@@ -83,7 +84,9 @@ export const GetCurrentAlias = async (userId) => {
     try {
         let requestURI = `/players/${userId}/alias/current`;
         let res = await baseClient.get(requestURI)
+        console.log(res)
         console.log(res.data)
+        console.log(res.json)
         let alias = res.data;
         console.log(alias.name);
         return alias.name;
@@ -103,8 +106,11 @@ export const GetLocationName = async (locationId) => {
     try {
         let requestURI = `/location/${locationId}`;
         let res = await baseClient.get(requestURI)
+        console.log("The function is called");
         console.log(res)
-        return res.data;
+        console.log(res.data)
+        let location = res.data;
+        return location.locationName;
 
     } catch(e) {
         if (e.response) {
