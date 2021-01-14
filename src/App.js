@@ -12,11 +12,13 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Dash from './components/Dash';
 import Profile from './components/Profile';
+import Contract from './components/Contract';
 
 import Header from './components/Header';
+import Logout from './components/Logout';
 
 import paris_photo from './location_photos/paris.jpg';
-import LocationDrawer from './components/LocationDrawer';
+
 const App = () => {
   // const theme = createMuiTheme({
   //   palette: {
@@ -31,31 +33,6 @@ const App = () => {
   //   },
   // });
 
-  let testLocation = {
-    id: 0,
-    locationName: 'Paris',
-    description: 'This is a test description of Paris',
-    adjacent: [
-      { id: 0, name: 'London' },
-      { id: 1, name: 'Berlin' },
-    ],
-    image: paris_photo,
-  };
-
-  let testLocation2 = {
-    id: 1,
-    locationName: 'Berlin',
-    description: 'This is a test description of Berlin',
-    adjacent: [
-      { id: 2, name: 'Paris' },
-      { id: 3, name: 'Rome' },
-    ],
-    image: {},
-  };
-
-  //TODO
-  let setLocation = () => {};
-
   return (
     // <ThemeProvider theme={theme}>
     <BrowserRouter>
@@ -64,11 +41,11 @@ const App = () => {
       <Route path="/signup" exact component={Signup} />
       <Route path="/dashboard" exact component={requireAuth(Dash)} />
       <Route path="/profile" exact component={Profile} />
+      <Route path="/myContract" exact component={Contract} />
       <Route path="/map" exact component={Map} />
-      <Route path="/locationTester">
-        <LocationDrawer location={testLocation} setLocation={setLocation} />
-        <LocationDrawer location={testLocation2} setLocation={setLocation} />
-      </Route>
+
+      <Route path="/logout" exact component={requireAuth(Logout)} />
+      <Route path="/locationTester"></Route>
       {/* <Route
             path="/dashboard"
             exact

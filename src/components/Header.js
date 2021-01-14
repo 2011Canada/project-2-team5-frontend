@@ -10,8 +10,7 @@ import {
 } from '@material-ui/core';
 import { Home } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux';
-import { auth } from '../actions';
+
 const useStyles = makeStyles({
   navbarDisplayFlex: {
     display: `flex`,
@@ -28,11 +27,14 @@ const useStyles = makeStyles({
   },
 });
 
-const navLinks = [{ title: `My Profile`, path: `/myprofile` }];
+const navLinks = [
+  { title: `My Contract`, path: `/myContract` },
+  { title: `My Profile`, path: `/myprofile` },
+];
 
 const Header = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -54,8 +56,8 @@ const Header = () => {
                 </ListItem>
               </a>
             ))}
-            <a href={'/'} key={'logout'} className={classes.linkText}>
-              <ListItem button onClick={dispatch(auth.logout())}>
+            <a href={'/logout'} key={'logout'} className={classes.linkText}>
+              <ListItem button>
                 <ListItemText primary={'LOGOUT'} />
               </ListItem>
             </a>
