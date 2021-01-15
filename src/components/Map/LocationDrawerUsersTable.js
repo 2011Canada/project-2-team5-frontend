@@ -75,7 +75,7 @@ const LocationDrawerUsersTable = (props) => {
             <TableHead>
               <TableRow>
                 <StyledTableCell>Name</StyledTableCell>
-                <StyledTableCell align="left">Known Aliases</StyledTableCell>
+                {/* <StyledTableCell align="left">Known Aliases</StyledTableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -85,7 +85,7 @@ const LocationDrawerUsersTable = (props) => {
                     {users.userName}
                   </StyledTableCell>
                   {/* TODO: BUILD AN API CALL, AND HANDLE IT ON THE BACKEND, FOR GETTING ALL REVEALED ALIASES OF USERS IN A PARTICULAR LOCATION */}
-                  <StyledTableCell align="left">known aliases not implemented</StyledTableCell>
+                  {/* <StyledTableCell align="left">known aliases not implemented</StyledTableCell> */}
                 </StyledTableRow>
               ))}
             </TableBody>
