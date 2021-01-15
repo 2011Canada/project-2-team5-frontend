@@ -18,6 +18,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import Paris from '../../location_photos/paris.jpg';
+import Cairo from '../../location_photos/cairo.jpg';
+import Beijing from '../../location_photos/beijing.jpg';
+import SaoPaulo from '../../location_photos/saoPaulo.jpg';
+import Sydney from '../../location_photos/sydney.jpg';
+import Toronto from '../../location_photos/toronto.jpg';
+import Vancouver from '../../location_photos/vancouver.jpg';
+
 import LocationDrawerUsersTable from './LocationDrawerUsersTable';
 import {
   GetNextLocation,
@@ -55,6 +63,7 @@ const LocationDrawer = (props) => {
   const [aHackToStopHack, setAHackToStopHack] = React.useState(false); //this stops the update function from continually calling the hack function
 
   const [location, setLocation] = React.useState({});
+  const [locationImage, setLocationImage] = React.useState({});
   const [adjacentLocation1, setAdjacentLocation1] = React.useState({});
   const [adjacentLocation2, setAdjacentLocation2] = React.useState({});
 
@@ -67,6 +76,36 @@ const LocationDrawer = (props) => {
     }
   };
 
+  const getLocationImage = (locationName) => {
+    let image;
+    switch(locationName) {
+      case "Paris":
+        image = Paris;
+        break;
+      case "Cairo":
+        image = Cairo;
+        break;
+      case "Beijing":
+        image = Beijing;
+        break;
+      case "Sao Paolo":
+        image = SaoPaulo;
+        break;
+      case "Sydney":
+        image = Sydney;
+        break;
+      case "Toronto":
+        image = Toronto;
+        break;
+      case "Vancouver":
+        image = Vancouver;
+        break;
+      default:
+        break;
+    }
+
+    setLocationImage(image);
+  }
   
   const changeLocation = async (locationId) => {
     user.currentLocationId = locationId;
@@ -106,6 +145,7 @@ const LocationDrawer = (props) => {
       const grabLocationData = async () => {
         let currentLocationData = await GetNextLocation(props.activeLocation);
         setLocation(currentLocationData);
+        getLocationImage(currentLocationData.locationName)
 
         let adjacentLocationData1 = await GetNextLocation(
           currentLocationData.adjacentLocation1
@@ -303,7 +343,7 @@ const LocationDrawer = (props) => {
             {location.locationName}
           </h1>
           <img
-            src={location.image}
+            src={locationImage}
             alt={location.locationName}
             style={{
               borderRadius: '5%',
