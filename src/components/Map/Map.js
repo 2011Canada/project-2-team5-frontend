@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 // import MapImage from './worldmap.jpg';
 import './Map.css';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import LocationDrawer from './LocationDrawer';
 
 import paris_photo from '../../location_photos/paris.jpg';
@@ -29,6 +30,14 @@ function ParentMap() {
   return (
     //all-containing component
     <div className="mapcontainer">
+      <div className="description">
+        <h1>Welcome</h1>
+        <Paper>
+          Welcome to SpyBook, the only social media platform for spies. Each of the seven marked cities on the map is a possible destination from which you can carry out  
+          your nefarious schemes. To open the Location Drawer, click on any of the seven marked cities.
+        </Paper>
+      </div>
+
       <div className="mapfunction">
         {/* <WorldMap /> */}
         <LocationDrawer
