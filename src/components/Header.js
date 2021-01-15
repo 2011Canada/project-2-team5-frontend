@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 
 const navLinks = [
   { title: `My Contract`, path: `/myContract` },
-  { title: `My Profile`, path: `/myprofile` },
+  { title: `My Profile`, path: `/profile` },
 ];
 
 const Header = () => {
@@ -56,7 +56,11 @@ const Header = () => {
                 </ListItem>
               </a>
             ))}
+<<<<<<< HEAD
+            <a href={'/'} key={'logout'} className={classes.linkText}>
+=======
             <a href={'/logout'} key={'logout'} className={classes.linkText}>
+>>>>>>> main
               <ListItem button>
                 <ListItemText primary={'LOGOUT'} />
               </ListItem>

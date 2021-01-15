@@ -12,6 +12,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Dash from './components/Dash';
 import Profile from './components/Profile';
+import EditProfile from './components/EditProfile';
 import Contract from './components/Contract';
 
 import Header from './components/Header';
@@ -41,6 +42,7 @@ const App = () => {
       <Route path="/signup" exact component={Signup} />
       <Route path="/dashboard" exact component={requireAuth(Dash)} />
       <Route path="/profile" exact component={Profile} />
+      <Route path="/profile/edit" exact component={EditProfile} />
       <Route path="/myContract" exact component={Contract} />
       <Route path="/map" exact component={Map} />
 
