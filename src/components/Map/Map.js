@@ -28,13 +28,17 @@ function ParentMap() {
 
   return (
     //all-containing component
-    <div class="mapcontainer">
-      <div class="mapfunction">
+    <div className="mapcontainer">
+      <div className="mapfunction">
         {/* <WorldMap /> */}
-        <LocationDrawer activeLocation={activeLocation} grabbedLocation={grabbedLocation} setGrabbedLocation={setGrabbedLocation} />
+        <LocationDrawer
+          activeLocation={activeLocation}
+          grabbedLocation={grabbedLocation}
+          setGrabbedLocation={setGrabbedLocation}
+        />
       </div>
 
-      <div class="torontobutton">
+      <div className="torontobutton">
         <Button
           variant="contained"
           color="primary"
@@ -44,7 +48,7 @@ function ParentMap() {
         </Button>
       </div>
 
-      <div class="parisbutton">
+      <div className="parisbutton">
         <Button
           variant="contained"
           color="primary"
@@ -54,7 +58,7 @@ function ParentMap() {
         </Button>
       </div>
 
-      <div class="vancouverbutton">
+      <div className="vancouverbutton">
         <Button
           variant="contained"
           color="primary"
@@ -64,7 +68,7 @@ function ParentMap() {
         </Button>
       </div>
 
-      <div class="cairobutton">
+      <div className="cairobutton">
         <Button
           variant="contained"
           color="primary"
@@ -74,7 +78,7 @@ function ParentMap() {
         </Button>
       </div>
 
-      <div class="beijingbutton">
+      <div className="beijingbutton">
         <Button
           variant="contained"
           color="primary"
@@ -84,7 +88,7 @@ function ParentMap() {
         </Button>
       </div>
 
-      <div class="sydneybutton">
+      <div className="sydneybutton">
         <Button
           variant="contained"
           color="primary"
@@ -94,7 +98,7 @@ function ParentMap() {
         </Button>
       </div>
 
-      <div class="saopaulobutton">
+      <div className="saopaulobutton">
         <Button
           variant="contained"
           color="primary"
