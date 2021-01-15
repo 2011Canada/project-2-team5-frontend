@@ -119,6 +119,8 @@ export default function Profile() {
 
     const [currentAliasName, setCurrentAliasName] = useState("");
      
+    //function that calls another to send an Http request
+    //to the backend to retrieve a list of all user aliases
     const updateUserAliases = async () => {
           let allUserAliases = await (GetAllUserAliases(user.userId));
           if(needLoadAlias){
@@ -127,6 +129,8 @@ export default function Profile() {
          
     }
 
+    //function that calls another to send an Http request
+    //to the backend to retrieve a the users' active alias
     const getCurrentAlias = async () => {
         let currentAlias = await (GetCurrentAlias(user.userId));
         if(needLoadAlias){
@@ -135,6 +139,8 @@ export default function Profile() {
         }
     }
 
+    //this function is called by the main component to
+    //render a table showing all user aliases
     const getUserAliases = () => {
         updateUserAliases();
         return (
@@ -144,22 +150,27 @@ export default function Profile() {
         )
     }
 
+    //making sure that the current user's name is displayed once the page loads
     useEffect(() => {
         
         getCurrentAlias();
 
     });
 
+    //this function is called on the click of a button to
+    //take the alias displayed on the row and set is as current
     const handleSetAlias =(alias)=>{
-        UpdateAlias(user.userId, alias)
-        setCurrentAliasName(alias.name)
-    }
-    
+        UpdateAlias(user.userId, alias) //backend
+        setCurrentAliasName(alias.name) //frontend
+    } //can be done with just the backend function but this makes it easier
+
+    //sets a state called newName to user's input
     function changeHandler(event) {
         const newName = event.target.value;
         setNewAliasName(newName);
     };
     
+    //passes the newName state to the function making the Http request to make a new alias
     function handleSubmit(event) {
 
         event.preventDefault();
@@ -179,6 +190,7 @@ export default function Profile() {
 
     };
 
+    //alias table component
     const UserAliasesTable = () => {
     
         return (
