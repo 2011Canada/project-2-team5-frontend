@@ -4,6 +4,12 @@ div.mapcontainer {
   margin: auto auto;
 }
 
+div.description {
+  position: absolute;
+  width: 35%;
+  right: 100%;
+}
+
 div.mapfunction {
   resize: horizontal;
   max-width: 100%;
