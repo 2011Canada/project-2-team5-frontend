@@ -15,36 +15,36 @@ div.mapfunction {
 
 div.torontobutton {
   position: absolute;
-  top: 45%;
-  right: 70%;
+  top: 48%;
+  right: 75%;
 }
 div.parisbutton {
   position: absolute;
-  top: 43%;
-  right: 45%;
+  top: 45%;
+  right: 52%;
 }
 div.cairobutton {
   position: absolute;
-  top: 53%;
-  right: 40%;
+  top: 55%;
+  right: 45%;
 }
 div.vancouverbutton {
   position: absolute;
-  top: 42%;
-  right: 85%;
+  top: 45%;
+  right: 87%;
 }
 div.beijingbutton {
   position: absolute;
-  top: 49%;
-  right: 13%;
+  top: 52%;
+  right: 20%;
 }
 div.sydneybutton {
   position: absolute;
-  top: 77%;
-  right: 5%;
+  top: 80%;
+  right: 11%;
 }
 div.saopaulobutton {
   position: absolute;
   top: 75%;
-  right: 56%;
+  right: 65%;
 }
