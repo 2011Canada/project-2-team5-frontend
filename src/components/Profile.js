@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { auth } from '../actions';
 import { Redirect } from 'react-router';
 import { Alert, AlertTitle } from '@material-ui/lab';
@@ -22,7 +22,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-import { MakeAnAlias, GetLocationName, GetCurrentAlias, GetAllUserAliases } from '../utils/uri-fuctions.js';
+import { MakeAnAlias, GetCurrentAlias, GetAllUserAliases, UpdateAlias } from '../utils/uri-fuctions.js';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import EditProfile from './EditProfile';
@@ -33,7 +33,7 @@ function Copyright() {
             {'Copyright © '}
             <Link color="inherit" href="https://material-ui.com/">
                 Your Website
-      </Link>{' '}
+            </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>
@@ -109,35 +109,31 @@ export default function Profile() {
 
     const classes = useStyles();
 
-    //const user = useSelector((state) => state.authenticated);
+    const user = useSelector((state) => state.authenticated);
 
-    const userOld = {
-        "userId": 1,
-        "firstName": "Heng",
-        "lastName": "Wang",
-        "userName": "HengWang",
-        "userPassword": "C5IDc2I7OAg+yLf9ataZVMmVe5+KNmShy+pZBm5K1tk=",
-        "email": "heng.wang@revature.net",
-        "photo": null,
-        "salt": null,
-        "currentLocationId": 1
-    };
-    const [user, setUser] = useState(userOld);
-
-    const [userAliases, setUserAliases] = useState({});
+    const [userAliases, setUserAliases] = useState([]);
 
     const [newAliasName, setNewAliasName] = useState("");
 
+    const [needLoadAlias, setNeedLoadAlias] = useState(true);
+
     const [currentAliasName, setCurrentAliasName] = useState("");
-
-    const [currentLocationName, setCurrentLocationName] = useState("");
-
-    const dispatch = useDispatch();
-
+     
     const updateUserAliases = async () => {
           let allUserAliases = await (GetAllUserAliases(user.userId));
-          setUserAliases(allUserAliases);
-      }
+          if(needLoadAlias){
+            setUserAliases(allUserAliases);
+          }
+         
+    }
+
+    const getCurrentAlias = async () => {
+        let currentAlias = await (GetCurrentAlias(user.userId));
+        if(needLoadAlias){
+            setCurrentAliasName(currentAlias);
+            setNeedLoadAlias(false);
+        }
+    }
 
     const getUserAliases = () => {
         updateUserAliases();
@@ -148,105 +144,78 @@ export default function Profile() {
         )
     }
 
-    function createData(id, name, currentLevel, state) {
-       return { id, name, currentLevel, state };
-    }
+    useEffect(() => {
+        
+        getCurrentAlias();
 
+    });
+
+    const handleSetAlias =(alias)=>{
+        UpdateAlias(user.userId, alias)
+        setCurrentAliasName(alias.name)
+    }
+    
     function changeHandler(event) {
         const newName = event.target.value;
         setNewAliasName(newName);
     };
-
-    // componentDidMount() {
-    //     let currentLocation = GetLocationName(user.currentLocationId);
-    //     console.log(`currentLocation = ${currentLocation}`)
-
-    //     setCurrentLocationName(currentLocation);
-    // }
-
-    useEffect(() => {
-
-        const getLocationName = async () => {
-            let currentLocation = await (GetLocationName(user.currentLocationId));
-            console.log(`currentLocation = ${currentLocation}`)
-
-            setCurrentLocationName(currentLocation);
-        }
-
-        getLocationName();
-
-    }, [currentAliasName]);
-
-    console.log(currentLocationName);
-
+    
     function handleSubmit(event) {
 
         event.preventDefault();
 
         MakeAnAlias(user.userId, newAliasName);
 
-        const updateAliasName = async () => {
-            let currentAlias = await (GetCurrentAlias(user.userId));
-            console.log(`currentAlias = ${currentAlias}`)
+        setCurrentAliasName(newAliasName);
+        
+        const newAlias = {
+            aliasLevel: 0,      
+            name: newAliasName,
+            stateID: "hidden"      
+        };
+        const updatedAliases = userAliases;
+        updatedAliases.push(newAlias)
+        setUserAliases(updatedAliases);
 
-            setCurrentAliasName(currentAlias);
-        }
-
-        updateAliasName();
     };
 
-    function handleOnChange(event) {
-        const value = event.target.value;
-        const name = event.target.name;
-        user[name] = value;
-        setUser(user);
-        console.log(user)
-    };
-
-    
     const UserAliasesTable = () => {
-        let rows = [];
-    
-        //TEST ROW
-        rows.push({})
-    
-        for (let i = 0; i < userAliases.length; i++) {
-          rows.push(createData(userAliases[i].alias_id, userAliases[i].alias_name, userAliases[i].current_level, userAliases[i].state_id));
-        }
     
         return (
-          <TableContainer component={Paper} style={{ maxWidth: '90%', marginLeft: 'auto', marginRight: 'auto' }}>
+          <TableContainer component={Paper} style={{ width: '90vw', marginLeft: 'auto', marginRight: 'auto' }}>
             <Table className={classes.table} aria-label="customized table">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell>Alias ID</StyledTableCell>
-                  <StyledTableCell align="left">Name</StyledTableCell>
-                  <StyledTableCell align="left">Level</StyledTableCell>
-                  <StyledTableCell align="left">State</StyledTableCell>
+                 
+                  <StyledTableCell align="center">Name</StyledTableCell>
+                  <StyledTableCell align="center">Level</StyledTableCell>
+                  <StyledTableCell align="center">State</StyledTableCell>
+                  <StyledTableCell align="center">Action</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component="th" scope="row">{row.alias_id}</StyledTableCell>
-                    <StyledTableCell align="left">{row.alias_name}</StyledTableCell>
-                    <StyledTableCell align="left">{row.current_level}</StyledTableCell>
-                    <StyledTableCell align="left">{row.state_id}</StyledTableCell>
+                {userAliases.map((alias) => (
+                  <StyledTableRow key={alias.aliasID}>
+                    <StyledTableCell align="center">{alias.name}</StyledTableCell>
+                    <StyledTableCell align="center">{alias.aliasLevel}</StyledTableCell>
+                    <StyledTableCell align="center">{alias.stateID}</StyledTableCell>
+                    <StyledTableCell align="center">
+                        <Button 
+                            variant="contained"
+                            color="primary"
+                            onClick={()=>handleSetAlias(alias)}
+                        >
+                        Take Alias
+                        </Button></StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
         );
-      }
-    
-    //Redirect to="/dashboard" (
-    //   <p />
-    // ) :
+    }
 
-    //console.log(user);
-
-    return user && (
+    return  (
         <div className={classes.root}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
@@ -273,7 +242,7 @@ export default function Profile() {
                     </div>
                     <div style={{ border: "1px solid white", width: "100%", borderRadius: "7px", padding: "10px", marginTop: "5px", marginBottom: "5px" }}>
                         <h5 style={{ marginTop: "5px", marginBottom: "5px" }}>Current Location:</h5>
-                        <p style={{ marginTop: "5px", marginBottom: "5px" }}>currentLocationName</p>
+                        <p style={{ marginTop: "5px", marginBottom: "5px" }}>{user.currentLocation.locationName}</p>
                     </div>
                     <br/>
                     <BrowserRouter>
@@ -282,63 +251,14 @@ export default function Profile() {
                     </BrowserRouter>
                     <br/>
                     <div>
-                        <h5>Your Aliases</h5>
-                        {getUserAliases()}
+                        <h3 style={{textAlign:"center"}}>Your Aliases</h3>
+                         {getUserAliases()} 
                     </div>
                     <div style={{ border: "1px solid white", width: "100%", borderRadius: "7px", padding: "10px", marginTop: "5px", marginBottom: "5px" }}>
                         <h5 style={{ marginTop: "5px", marginBottom: "5px" }}>Current Alias:</h5>
                         <p style={{ marginTop: "5px", marginBottom: "5px" }}>{currentAliasName}</p>
                     </div>
-                    {/* <TextField
-                        defaultValue={currentLocation}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="currentLocationId"
-                        label="Current Location"
-                        name="currentLocationId"
-                        autoFocus
-                        InputLabelProps={{
-                            classes: {
-                                root: classes.cssLabel,
-                                focused: classes.cssFocused,
-                            },
-                        }}
-                        InputProps={{
-                            classes: {
-                                root: classes.cssOutlinedInput,
-                                focused: classes.cssFocused,
-                                notchedOutline: classes.notchedOutline,
-                                input: classes.multilineColor,
-                            },
-                        }}
-                    /> */}
-                    {/* <TextField
-                        defaultValue={currentAlias}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="currentAlias"
-                        label="Current Alias"
-                        name="currentAlias"
-                        autoFocus
-                        InputLabelProps={{
-                            classes: {
-                                root: classes.cssLabel,
-                                focused: classes.cssFocused,
-                            },
-                        }}
-                        InputProps={{
-                            classes: {
-                                root: classes.cssOutlinedInput,
-                                focused: classes.cssFocused,
-                                notchedOutline: classes.notchedOutline,
-                                input: classes.multilineColor,
-                            },
-                        }}
-                    /> */}
+                   
                     <form className={classes.form} noValidate onSubmit={handleSubmit}>
                         <h3>Create New Alias</h3>
                         <TextField

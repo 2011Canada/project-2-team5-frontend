@@ -28,7 +28,7 @@ const useStyles = makeStyles({
   },
 });
 
-const navLinks = [{ title: `My Profile`, path: `/myprofile` }];
+const navLinks = [{ title: `My Profile`, path: `/profile` }];
 
 const Header = () => {
   const classes = useStyles();
@@ -55,7 +55,7 @@ const Header = () => {
               </a>
             ))}
             <a href={'/'} key={'logout'} className={classes.linkText}>
-              <ListItem button onClick={dispatch(auth.logout())}>
+              <ListItem button>
                 <ListItemText primary={'LOGOUT'} />
               </ListItem>
             </a>
