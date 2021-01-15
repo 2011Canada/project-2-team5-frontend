@@ -94,7 +94,7 @@ export default function SignIn() {
   }
 
   return user ? (
-    <Redirect to="/dashboard" />
+    <Redirect to="/map" />
   ) : (
     <div className={classes.root}>
       <Container component="main" maxWidth="xs">

@@ -1,23 +1,19 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React from 'react';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
-import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { purple } from '@material-ui/core/colors';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import requireAuth from './components/require_auth';
 
 import Map from './components/Map/Map';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import Dash from './components/Dash';
+
 import Profile from './components/Profile';
 import EditProfile from './components/EditProfile';
 import Contract from './components/Contract';
 
 import Header from './components/Header';
 import Logout from './components/Logout';
-
 
 const App = () => {
   // const theme = createMuiTheme({
@@ -39,19 +35,13 @@ const App = () => {
       <Route path="/" exact component={Login} />
       <Header />
       <Route path="/signup" exact component={Signup} />
-      <Route path="/dashboard" exact component={requireAuth(Dash)} />
-      <Route path="/profile" exact component={Profile} />
-      <Route path="/profile/edit" exact component={EditProfile} />
-      <Route path="/myContract" exact component={Contract} />
-      <Route path="/map" exact component={Map} />
+      <Route path="/map" exact component={requireAuth(Map)} />
+
+      <Route path="/profile" exact component={requireAuth(Profile)} />
+      <Route path="/profile/edit" exact component={requireAuth(EditProfile)} />
+      <Route path="/contract" exact component={requireAuth(Contract)} />
 
       <Route path="/logout" exact component={requireAuth(Logout)} />
-      {/* <Route path="/locationTester"></Route> */}
-      {/* <Route
-            path="/dashboard"
-            exact
-            component={requireAuth(myLayout(DashBoard, 'Dash Board', 1))}
-          /> */}
     </BrowserRouter>
     // </ThemeProvider>
   );
