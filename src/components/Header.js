@@ -56,11 +56,7 @@ const Header = () => {
                 </ListItem>
               </a>
             ))}
-<<<<<<< HEAD
             <a href={'/'} key={'logout'} className={classes.linkText}>
-=======
-            <a href={'/logout'} key={'logout'} className={classes.linkText}>
->>>>>>> main
               <ListItem button>
                 <ListItemText primary={'LOGOUT'} />
               </ListItem>
