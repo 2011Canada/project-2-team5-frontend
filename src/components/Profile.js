@@ -28,9 +28,12 @@ import {
   GetAllUserAliases,
   UpdateAlias,
 } from '../utils/uri-fuctions.js';
+
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import EditProfile from './EditProfile';
+
+import hammad from "../profile_images/hammad.jpg";
 
 function Copyright() {
   return (
@@ -236,9 +239,7 @@ export default function Profile() {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <Avatar alt="Hammad" src = "../profile_images/hammad.jpg" className={classes.large} />
           <Typography component="h1" variant="h4">
             {user.firstName} {user.lastName}
           </Typography>
