@@ -18,7 +18,6 @@ import Contract from './components/Contract';
 import Header from './components/Header';
 import Logout from './components/Logout';
 
-import paris_photo from './location_photos/paris.jpg';
 
 const App = () => {
   // const theme = createMuiTheme({
@@ -47,16 +46,12 @@ const App = () => {
       <Route path="/map" exact component={Map} />
 
       <Route path="/logout" exact component={requireAuth(Logout)} />
-      <Route path="/locationTester"></Route>
+      {/* <Route path="/locationTester"></Route> */}
       {/* <Route
             path="/dashboard"
             exact
             component={requireAuth(myLayout(DashBoard, 'Dash Board', 1))}
           /> */}
-
-      <Link to="/locationTester">Location Tester</Link>
-      <br />
-      <Link to="/">Home</Link>
     </BrowserRouter>
     // </ThemeProvider>
   );

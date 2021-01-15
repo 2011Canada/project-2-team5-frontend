@@ -1,38 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import MapImage from './worldmap.jpg';
 import './Map.css';
 import Button from '@material-ui/core/Button';
-import LocationDrawer from '../LocationDrawer';
+import LocationDrawer from './LocationDrawer';
 
-import paris_photo from '../../location_photos/paris.jpg'
+import paris_photo from '../../location_photos/paris.jpg';
+import { useSelector } from 'react-redux';
 
 // function WorldMap() {
 //   return <img src={MapImage} alt="Logo" resizeMode="cover" />;
 // }
 
 function ParentMap() {
+  /*HERE BEGINS THE FUNCTION THAT FIRES WHEN THE BUTTONS ARE PRESSED*/
+  const [activeLocation, setActiveLocation] = React.useState(0);
+  const [grabbedLocation, setGrabbedLocation] = React.useState(false);
 
-/*HERE BEGINS THE FUNCTION THAT FIRES WHEN THE BUTTONS ARE PRESSED*/
+  function handleButton(nextActiveLocation) {
+    setActiveLocation(nextActiveLocation);
+    setGrabbedLocation(true);
+  }
 
-  const handleButton = (location) => {
-    console.log(location);
-  };
+  //TODO: test
+  useState(() => {}, [activeLocation]);
 
-/*END OF FUNCTION THAT FIRES WHEN THE BUTTONS ARE PRESSED*/
+  /*END OF FUNCTION THAT FIRES WHEN THE BUTTONS ARE PRESSED*/
 
   return (
     //all-containing component
     <div class="mapcontainer">
+      <div class="mapfunction">
+        {/* <WorldMap /> */}
+        <LocationDrawer activeLocation={activeLocation} grabbedLocation={grabbedLocation} setGrabbedLocation={setGrabbedLocation} />
+      </div>
 
-        <div class="mapfunction">
-            {/* <WorldMap /> */}
-        </div>
-        
       <div class="torontobutton">
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('Toronto')}
+          onClick={() => handleButton(2)}
         >
           Toronto
         </Button>
@@ -42,7 +48,7 @@ function ParentMap() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('Paris')}
+          onClick={() => handleButton(1)}
         >
           Paris
         </Button>
@@ -52,7 +58,7 @@ function ParentMap() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('Vancouver')}
+          onClick={() => handleButton(3)}
         >
           Vancouver
         </Button>
@@ -62,7 +68,7 @@ function ParentMap() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('Cairo')}
+          onClick={() => handleButton(7)}
         >
           Cairo
         </Button>
@@ -72,7 +78,7 @@ function ParentMap() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('Beijing')}
+          onClick={() => handleButton(6)}
         >
           Beijing
         </Button>
@@ -82,7 +88,7 @@ function ParentMap() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('Sydney')}
+          onClick={() => handleButton(5)}
         >
           Sydney
         </Button>
@@ -92,12 +98,11 @@ function ParentMap() {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => handleButton('Sao Paulo')}
+          onClick={() => handleButton(4)}
         >
           Sao Paulo
         </Button>
       </div>
-
     </div>
     //end of all-containing component
   );
@@ -107,41 +112,24 @@ function ParentMap() {
 WHAT FOLLOWS IS THE TEST DATA FOR THE DUMMY VERSION OF THE LOCATION DRAWER
 */
 
-let testLocation = {
-  id: 0,
-  locationName: 'Paris',
-  description: 'This is a test description of Paris',
-  adjacent: [
-    { id: 0, name: 'London' },
-    { id: 1, name: 'Berlin' },
-  ],
-  image: paris_photo,
-};
-
-//TODO
-let setLocation = () => {};
-
 /*
 WHAT FOLLOWS IS THE EXPORTED FUNCTION, WHICH TESTS THE DUMMY VERSION OF THE LOCATION DRAWER
 */
 
-function SuperParent(){
-  if(true){
-    return(
-      <div>
-        <ParentMap />
-        <LocationDrawer location={testLocation} setLocation={setLocation} />
-      </div>
-    );
-  }
-  else{
-    return(
+function SuperParent() {
+  if (true) {
+    return (
       <div>
         <ParentMap />
       </div>
     );
+  } else {
+    return (
+      <div>
+        <ParentMap />
+      </div>
+    );
   }
-  
 }
 
 export default SuperParent;
