@@ -92,6 +92,14 @@ const useStyles = makeStyles((theme) => ({
     borderWidth: '1px',
     borderColor: 'white !important',
   },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+  },
+  large: {
+    width: theme.spacing(15),
+    height: theme.spacing(15),
+  },
 }));
 
 const StyledTableCell = withStyles((theme) => ({
@@ -239,7 +247,8 @@ export default function Profile() {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <Avatar alt="Hammad" src = "../profile_images/hammad.jpg" className={classes.large} />
+          <Avatar alt="Hammad" src = {hammad} className={classes.large} />
+          <br/>
           <Typography component="h1" variant="h4">
             {user.firstName} {user.lastName}
           </Typography>
