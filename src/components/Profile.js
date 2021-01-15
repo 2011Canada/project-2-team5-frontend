@@ -130,24 +130,6 @@ export default function Profile() {
 
     const [image, setImage] = useState({});
 
-    // switch (user.userId) {
-    //     case (1):
-    //         setImage(hammad);
-    //         break;
-    //     case (2):
-    //         setImage(stephen);
-    //         break;
-    //     case (3):
-    //         setImage(heng);
-    //         break;
-    //     case (4):
-    //         setImage(tristan);
-    //         break;
-    //     default:
-    //         break;
-
-    // }
-
     //   if (user.userId === 1){
     //       setImage(hammad);
     //     } else if (user.userId === 2) {
@@ -168,6 +150,28 @@ export default function Profile() {
 
     const [currentAliasName, setCurrentAliasName] = useState('');
 
+    //function to set the profile image according the user being logged in
+    const getProfileImage = (userId) => {
+        let profileImage;
+        switch (userId) {
+            case (1):
+                profileImage = hammad;
+                break;
+            case (2):
+                profileImage = stephen;
+                break;
+            case (3):
+                profileImage = heng;
+                break;
+            case (4):
+                profileImage = tristan;
+                break;
+            default:
+                break;
+        }
+        setImage(profileImage);
+    }
+    
     //function that calls another to send an Http request
     //to the backend to retrieve a list of all user aliases
     const updateUserAliases = async () => {
@@ -203,6 +207,7 @@ export default function Profile() {
 
     //making sure that the current user's name is displayed once the page loads
     useEffect(() => {
+        getProfileImage(user.userId);
         getCurrentAlias();
     });
 
@@ -281,7 +286,7 @@ export default function Profile() {
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
-                    <Avatar alt="Hammad" src={hammad} className={classes.large} />
+                    <Avatar alt="Hammad" src={image} className={classes.large} />
                     <br />
                     <Typography component="h1" variant="h4">
                         {user.firstName} {user.lastName}
