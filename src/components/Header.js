@@ -10,8 +10,7 @@ import {
 } from '@material-ui/core';
 import { Home } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux';
-import { auth } from '../actions';
+
 const useStyles = makeStyles({
   navbarDisplayFlex: {
     display: `flex`,
@@ -29,13 +28,13 @@ const useStyles = makeStyles({
 });
 
 const navLinks = [
-  { title: `Map`, path: `/map` },
-  { title: `My Profile`, path: `/myprofile` },
+  { title: `My Contract`, path: `/myContract` },
+  { title: `My Profile`, path: `/profile` },
 ];
 
 const Header = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+
   return (
     <AppBar position="static">
       <Toolbar>

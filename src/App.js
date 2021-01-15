@@ -12,11 +12,18 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Dash from './components/Dash';
 import Profile from './components/Profile';
+import EditProfile from './components/EditProfile';
+import Contract from './components/Contract';
 
 import Header from './components/Header';
+import Logout from './components/Logout';
 
 import paris_photo from './location_photos/paris.jpg';
+<<<<<<< HEAD
 import LocationDrawer from './components/Map/LocationDrawer';
+=======
+
+>>>>>>> main
 const App = () => {
   // const theme = createMuiTheme({
   //   palette: {
@@ -39,16 +46,12 @@ const App = () => {
       <Route path="/signup" exact component={Signup} />
       <Route path="/dashboard" exact component={requireAuth(Dash)} />
       <Route path="/profile" exact component={Profile} />
+      <Route path="/profile/edit" exact component={EditProfile} />
+      <Route path="/myContract" exact component={Contract} />
       <Route path="/map" exact component={Map} />
-      <Route path="/locationTester">
-        <LocationDrawer locationId={1} />
-        <LocationDrawer locationId={2} />
-        <LocationDrawer locationId={3} />
-        <LocationDrawer locationId={4} />
-        <LocationDrawer locationId={5} />
-        <LocationDrawer locationId={6} />
-        <LocationDrawer locationId={7} />
-      </Route>
+
+      <Route path="/logout" exact component={requireAuth(Logout)} />
+      <Route path="/locationTester"></Route>
       {/* <Route
             path="/dashboard"
             exact

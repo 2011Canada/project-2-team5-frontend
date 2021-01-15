@@ -64,7 +64,7 @@ export const MakeAnAlias = async (userId, aliasName) => {
     try {
         let requestURI = `/players/${userId}/alias`;
         let res = await baseClient.post(requestURI, alias)
-        console.log(res.json);
+        console.log(res.data);
         return res.data;
         
 
@@ -84,25 +84,61 @@ export const GetCurrentAlias = async (userId) => {
         let res = await baseClient.get(requestURI)
         console.log(res.data)
         let alias = res.data;
-        console.log(alias.name);
         return alias.name;
 
 
     } catch(e) {
-        //if (e.response) {
+        if (e.response) {
             console.log(e)
-        //} else {
-        //    console.log("Failed to send request.")
-        //}
+        } else {
+           console.log("Failed to send request.")
+        }
+    }
+}
+
+export const GetAllUserAliases = async (userId) => {
+
+    try {
+        let requestURI = `/players/${userId}/alias/all`;
+        let res = await baseClient.get(requestURI)
+        console.log(res.data)
+        return res.data;
+
+    } catch(e) {
+        if (e.response) {
+            console.log(e)
+        } else {
+           console.log("Failed to send request.")
+        }
     }
 }
 
 export const GetLocationName = async (locationId) => {
 
     try {
-        let requestURI = `/location/${locationId}`;
+        let requestURI = `/locations/${locationId}`;
         let res = await baseClient.get(requestURI)
+        console.log(res.data)
+        let location = res.data;
+        return location.locationName;
+
+    } catch(e) {
+        if (e.response) {
+            console.log(e)
+        } else {
+           console.log("Failed to send request.")
+        }
+    }
+}
+
+export const UpdateAlias = async (userId, alias) => {
+
+    try {
+        let requestURI = `/players/${userId}/alias/set`;
+        let res = await baseClient.post(requestURI, alias)
+        console.log(res.data);
         return res.data;
+        
 
     } catch(e) {
         if (e.response) {
