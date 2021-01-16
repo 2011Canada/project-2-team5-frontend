@@ -40,7 +40,7 @@ const Header = () => {
       <Toolbar>
         <Container maxWidth="md" className={classes.navbarDisplayFlex}>
           <IconButton edge="start" color="inherit" aria-label="home">
-            <a href="/dashboard" className={classes.linkText}>
+            <a href="/map" className={classes.linkText}>
               <Home fontSize="large" />
             </a>
           </IconButton>
