@@ -12,10 +12,10 @@ function AvatarOverBackground() {
   return (
     <div className="imagebase">
       <div className="imagestack">
-        <img src={FranceImage} style={mystyle} />
+        <img src={FranceImage} style={mystyle} alt="" />
       </div>
       <div className="offsetimagestack">
-        <img src={AvatarImage} style={mystyle} />
+        <img src={AvatarImage} style={mystyle} alt="" />
       </div>
     </div>
   );

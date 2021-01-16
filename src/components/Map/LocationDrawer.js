@@ -17,6 +17,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import Paris from '../../location_photos/paris.jpg';
 import Cairo from '../../location_photos/cairo.jpg';
@@ -46,7 +48,9 @@ const useStyles = makeStyles({
     maxWidth: drawerMaxWidth,
   },
 });
-
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 const LocationDrawer = (props) => {
   const classes = useStyles();
 
@@ -67,6 +71,16 @@ const LocationDrawer = (props) => {
   const [adjacentLocation1, setAdjacentLocation1] = React.useState({});
   const [adjacentLocation2, setAdjacentLocation2] = React.useState({});
 
+  const [resultOpen, setResultOpen] = React.useState(false);
+  const [resultMessage, setResultMessage] = React.useState('');
+
+  const handleCloseResult = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setResultOpen(false);
+  };
 
   const swapCurrentView = () => {
     if (currentView === 'main') {
@@ -78,26 +92,26 @@ const LocationDrawer = (props) => {
 
   const getLocationImage = (locationName) => {
     let image;
-    switch(locationName) {
-      case "Paris":
+    switch (locationName) {
+      case 'Paris':
         image = Paris;
         break;
-      case "Cairo":
+      case 'Cairo':
         image = Cairo;
         break;
-      case "Beijing":
+      case 'Beijing':
         image = Beijing;
         break;
-      case "Sao Paolo":
+      case 'Sao Paolo':
         image = SaoPaulo;
         break;
-      case "Sydney":
+      case 'Sydney':
         image = Sydney;
         break;
-      case "Toronto":
+      case 'Toronto':
         image = Toronto;
         break;
-      case "Vancouver":
+      case 'Vancouver':
         image = Vancouver;
         break;
       default:
@@ -105,36 +119,42 @@ const LocationDrawer = (props) => {
     }
 
     setLocationImage(image);
-  }
-  
+  };
+
   const changeLocation = async (locationId) => {
     user.currentLocationId = locationId;
     dispatch(userAction.updateLocation(user));
 
-    setState({left:false});
+    setState({ left: false });
     props.setGrabbedLocation(false);
   };
-
 
   const changeHackStatus = () => {
     if (!hacked) {
       setHacked(true);
+      //
     }
   };
 
-
   //updates the DOM
   useEffect(() => {
-    console.log('in useEffect hook');
-
     //gets the hack response from the server
     if (hacked && aHackToStopHack === false) {
       //TODO:
+      console.log('in useEffect hook');
       //  - right now this shows nothing, just calls the request
       //  - contract success or failure should show
       //  - need to have the contracts tied to the user first
       const updateWithHack = async () => {
-        await HandleHackRequest();
+        const result = await HandleHackRequest(user);
+        const message = `There are ${
+          result.aliasResult.length - 1
+        } Alias got hacked and ${
+          result.contractResult.length
+        } contract completed!`;
+        //console.log(result);
+        setResultMessage(message);
+        setResultOpen(true);
       };
       updateWithHack();
       setAHackToStopHack(true);
@@ -145,7 +165,7 @@ const LocationDrawer = (props) => {
       const grabLocationData = async () => {
         let currentLocationData = await GetNextLocation(props.activeLocation);
         setLocation(currentLocationData);
-        getLocationImage(currentLocationData.locationName)
+        getLocationImage(currentLocationData.locationName);
 
         let adjacentLocationData1 = await GetNextLocation(
           currentLocationData.adjacentLocation1
@@ -220,7 +240,7 @@ const LocationDrawer = (props) => {
     ) {
       return;
     }
-    
+
     setState({ ...state, [anchor]: open });
     props.setGrabbedLocation(false);
   };
@@ -277,9 +297,7 @@ const LocationDrawer = (props) => {
           </List>
         ) : (
           <div style={{ marginLeft: '40px' }}>
-            <p>
-              You must be in this city to take any actions here.
-            </p>
+            <p>You must be in this city to take any actions here.</p>
           </div>
         )}
       </div>
@@ -330,6 +348,15 @@ const LocationDrawer = (props) => {
 
   return (
     <div>
+      <Snackbar
+        open={resultOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseResult}
+      >
+        <Alert onClose={handleCloseResult} severity="success">
+          {resultMessage}
+        </Alert>
+      </Snackbar>
       <React.Fragment>
         <Drawer
           anchor={'left'}
