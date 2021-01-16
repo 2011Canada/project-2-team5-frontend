@@ -3,21 +3,11 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-//import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useSelector } from 'react-redux';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { sizing } from '@material-ui/system';
 
 import {
     MakeAnAlias,
@@ -29,14 +19,13 @@ import {
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import EditProfile from './EditProfile';
-import { Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Grid } from '@material-ui/core';
+import { Card, CardActions, CardContent, Grid } from '@material-ui/core';
 
 import hammad from "../profile_images/hammad.jpg";
 import heng from "../profile_images/heng.jpg";
 import stephen from "../profile_images/stephen.jpg";
 import tristan from "../profile_images/tristan.jpg";
 import alias1 from "../profile_images/alias1.jpg";
-import { CenterFocusStrong } from '@material-ui/icons';
 
 function Copyright() {
     return (
@@ -128,24 +117,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// const StyledTableCell = withStyles((theme) => ({
-//     head: {
-//         backgroundColor: theme.palette.common.black,
-//         color: theme.palette.common.white,
-//     },
-//     body: {
-//         fontSize: 14,
-//     },
-// }))(TableCell);
-
-// const StyledTableRow = withStyles((theme) => ({
-//     root: {
-//         '&:nth-of-type(odd)': {
-//             backgroundColor: theme.palette.action.hover,
-//         },
-//     },
-// }))(TableRow);
-
 export default function Profile() {
     const classes = useStyles();
 
@@ -230,6 +201,10 @@ export default function Profile() {
     //this function is called on the click of a button to
     //take the alias displayed on the row and set is as current
     const handleSetAlias = (alias) => {
+        if (alias.stateID !== 1) {
+            alert("Cannot set a revealed alias as current alias.\nPlease choose another alias or create a new one!")
+            return;
+        }
         UpdateAlias(user.userId, alias); //backend
         setCurrentAliasName(alias.name); //frontend
     }; //can be done with just the backend function but this makes it easier
@@ -294,44 +269,6 @@ export default function Profile() {
             </div>
         )
     }
-
-    //alias table component
-    // const UserAliasesTable = () => {
-    //     return (
-    //         <TableContainer
-    //             component={Paper}
-    //             style={{ width: '90vw', marginLeft: 'auto', marginRight: 'auto' }}
-    //         >
-    //             <Table className={classes.table} aria-label="customized table">
-    //                 <TableHead>
-    //                     <TableRow>
-    //                         <StyledTableCell align="center">Name</StyledTableCell>
-    //                         <StyledTableCell align="center">Level</StyledTableCell>
-    //                         <StyledTableCell align="center">State</StyledTableCell>
-    //                         <StyledTableCell align="center">Action</StyledTableCell>
-    //                     </TableRow>
-    //                 </TableHead>
-    //                 <TableBody>
-    //                     {userAliases.map((alias) => (
-    //                         <StyledTableRow key={alias.aliasID}>
-    //                             <StyledTableCell align="center">{alias.name}</StyledTableCell>
-    //                             <StyledTableCell align="center">{alias.aliasLevel}</StyledTableCell>
-    //                             <StyledTableCell align="center">{(alias.stateID === 1) ? "hidden" : "revealed"}</StyledTableCell>
-    //                             <StyledTableCell align="center">
-    //                                 <Button
-    //                                     variant="contained"
-    //                                     color="primary"
-    //                                     onClick={() => handleSetAlias(alias)}>
-    //                                     Take Alias
-    //                                 </Button>
-    //                             </StyledTableCell>
-    //                         </StyledTableRow>
-    //                     ))}
-    //                 </TableBody>
-    //             </Table>
-    //         </TableContainer>
-    //     );
-    // };
 
     return (
         <div className={classes.root}>
