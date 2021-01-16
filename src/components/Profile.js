@@ -130,16 +130,6 @@ export default function Profile() {
 
     const [image, setImage] = useState({});
 
-    //   if (user.userId === 1){
-    //       setImage(hammad);
-    //     } else if (user.userId === 2) {
-    //         setImage(stephen)
-    //     } else if (user.userId === 3) {
-    //         setImage(heng);
-    //     } else if (user.userId === 4) {
-    //     setImage(tristan);
-    //     }
-
     const [userAliases, setUserAliases] = useState([]);
 
     const [newAliasName, setNewAliasName] = useState('');
