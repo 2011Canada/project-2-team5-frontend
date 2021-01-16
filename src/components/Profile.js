@@ -24,10 +24,17 @@ import {
     GetAllUserAliases,
     UpdateAlias,
 } from '../utils/uri-fuctions.js';
+
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import EditProfile from './EditProfile';
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Grid } from '@material-ui/core';
+
+import hammad from "../profile_images/hammad.jpg";
+import heng from "../profile_images/heng.jpg";
+import stephen from "../profile_images/stephen.jpg";
+import tristan from "../profile_images/tristan.jpg";
+import alias1 from "../profile_images/alias1.jpg";
 
 function Copyright() {
     return (
@@ -86,6 +93,14 @@ const useStyles = makeStyles((theme) => ({
         borderWidth: '1px',
         borderColor: 'white !important',
     },
+    small: {
+        width: theme.spacing(3),
+        height: theme.spacing(3),
+    },
+    large: {
+        width: theme.spacing(15),
+        height: theme.spacing(15),
+    },
 }));
 
 const StyledTableCell = withStyles((theme) => ({
@@ -111,20 +126,48 @@ export default function Profile() {
 
     const user = useSelector((state) => state.authenticated);
 
+    const [image, setImage] = useState({});
+
     const [userAliases, setUserAliases] = useState([]);
 
     const [newAliasName, setNewAliasName] = useState('');
 
     const [needLoadAlias, setNeedLoadAlias] = useState(true);
 
+    const [needLoadAlias2, setNeedLoadAlias2] = useState(true);
+
     const [currentAliasName, setCurrentAliasName] = useState('');
+
+    //function to set the profile image according the user being logged in
+    const getProfileImage = (userId) => {
+        let profileImage;
+        switch (userId) {
+            case (1):
+                profileImage = hammad;
+                break;
+            case (2):
+                profileImage = stephen;
+                break;
+            case (3):
+                profileImage = heng;
+                break;
+            case (4):
+                profileImage = tristan;
+                break;
+            default:
+                break;
+        }
+        setImage(profileImage);
+    }
 
     //function that calls another to send an Http request
     //to the backend to retrieve a list of all user aliases
     const updateUserAliases = async () => {
         let allUserAliases = await GetAllUserAliases(user.userId);
-        if (needLoadAlias) {
+        console.log("updateUserAliases() is getting repeated")
+        if (needLoadAlias2) {
             setUserAliases(allUserAliases);
+            setNeedLoadAlias2(false);
         }
     };
 
@@ -132,6 +175,7 @@ export default function Profile() {
     //to the backend to retrieve a the users' active alias
     const getCurrentAlias = async () => {
         let currentAlias = await GetCurrentAlias(user.userId);
+        console.log("getCurrentAlias() is getting repeated")
         if (needLoadAlias) {
             setCurrentAliasName(currentAlias);
             setNeedLoadAlias(false);
@@ -143,14 +187,18 @@ export default function Profile() {
     const getUserAliases = () => {
         updateUserAliases();
         return (
+            // <div>
+            //     <UserAliasesTable />
+            // </div>
             <div>
-                <UserAliasesTable />
+                <UserAliasesCards />
             </div>
         );
     };
 
     //making sure that the current user's name is displayed once the page loads
     useEffect(() => {
+        getProfileImage(user.userId);
         getCurrentAlias();
     });
 
@@ -186,95 +234,91 @@ export default function Profile() {
     }
 
     const UserAliasesCards = () => {
-
-        <div className={classes.root}>
-            <Grid container spacing={3}>
-                {userAliases.map((alias) => (
-                    <Grid item xs={12}>
-                        <Card className={classes.root}>
-                            <CardActionArea>
-                                <CardMedia
-                                    className={classes.media}
-                                    image="/static/images/cards/contemplative-reptile.jpg"
-                                    title="Contemplative Reptile"
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2">
-                                        Lizard
-                                    </Typography>
-                                    <Typography variant="body2" color="textSecondary" component="p">
-                                        Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                        across all continents except Antarctica
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                            <CardActions>
-                                <Button size="small" color="primary">
-                                    Share
-                                </Button>
-                                <Button size="small" color="primary">
-                                    Learn More
-                                </Button>
-                            </CardActions>
-                        </Card>
-                    </Grid>
-                ))}
-            </Grid>
-        </div>
-
-    }
-
-    //alias table component
-    const UserAliasesTable = () => {
         return (
-            <TableContainer
-                component={Paper}
-                style={{ width: '90vw', marginLeft: 'auto', marginRight: 'auto' }}
-            >
-                <Table className={classes.table} aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell align="center">Name</StyledTableCell>
-                            <StyledTableCell align="center">Level</StyledTableCell>
-                            <StyledTableCell align="center">State</StyledTableCell>
-                            <StyledTableCell align="center">Action</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {userAliases.map((alias) => (
-                            <StyledTableRow key={alias.aliasID}>
-                                <StyledTableCell align="center">{alias.name}</StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {alias.aliasLevel}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {alias.stateID}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
+            <div className={classes.root}>
+                <Grid container spacing={3}>
+                    {userAliases.map((alias) => (
+                        <Grid item xs={12}>
+                            <Card className={classes.root}>
+                                <CardActionArea>
+                                    <CardMedia
+                                        className={classes.media}
+                                        avatar={<Avatar alt="Alias" src={alias1} className={classes.small} />}
+                                        title="Alias Profile"
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            {alias.name}
+                                        </Typography>
+                                        <Typography variant="body2" color="textSecondary" component="p">
+                                            Current Level: {alias.aliasLevel}
+                                        </Typography>
+                                        <Typography variant="body2" color="textSecondary" component="p">
+                                            Current State: {(alias.stateID === 1) ? "hidden" : "revealed"}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                                <CardActions>
                                     <Button
                                         variant="contained"
                                         color="primary"
-                                        onClick={() => handleSetAlias(alias)}
-                                    >
+                                        onClick={() => handleSetAlias(alias)}>
                                         Take Alias
-                                    </Button>
-                                </StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        );
-    };
+                                </Button>
+                                </CardActions>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </div>
+        )
+    }
+
+    //alias table component
+    // const UserAliasesTable = () => {
+    //     return (
+    //         <TableContainer
+    //             component={Paper}
+    //             style={{ width: '90vw', marginLeft: 'auto', marginRight: 'auto' }}
+    //         >
+    //             <Table className={classes.table} aria-label="customized table">
+    //                 <TableHead>
+    //                     <TableRow>
+    //                         <StyledTableCell align="center">Name</StyledTableCell>
+    //                         <StyledTableCell align="center">Level</StyledTableCell>
+    //                         <StyledTableCell align="center">State</StyledTableCell>
+    //                         <StyledTableCell align="center">Action</StyledTableCell>
+    //                     </TableRow>
+    //                 </TableHead>
+    //                 <TableBody>
+    //                     {userAliases.map((alias) => (
+    //                         <StyledTableRow key={alias.aliasID}>
+    //                             <StyledTableCell align="center">{alias.name}</StyledTableCell>
+    //                             <StyledTableCell align="center">{alias.aliasLevel}</StyledTableCell>
+    //                             <StyledTableCell align="center">{(alias.stateID === 1) ? "hidden" : "revealed"}</StyledTableCell>
+    //                             <StyledTableCell align="center">
+    //                                 <Button
+    //                                     variant="contained"
+    //                                     color="primary"
+    //                                     onClick={() => handleSetAlias(alias)}>
+    //                                     Take Alias
+    //                                 </Button>
+    //                             </StyledTableCell>
+    //                         </StyledTableRow>
+    //                     ))}
+    //                 </TableBody>
+    //             </Table>
+    //         </TableContainer>
+    //     );
+    // };
 
     return (
         <div className={classes.root}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
+                    <Avatar alt="Hammad" src={image} className={classes.large} />
+                    <br />
                     <Typography component="h1" variant="h4">
                         {user.firstName} {user.lastName}
                     </Typography>
@@ -288,8 +332,7 @@ export default function Profile() {
                             padding: '10px',
                             marginTop: '5px',
                             marginBottom: '5px',
-                        }}
-                    >
+                        }}>
                         <h5 style={{ marginTop: '5px', marginBottom: '5px' }}>User ID:</h5>
                         <p style={{ marginTop: '5px', marginBottom: '5px' }}>
                             {user.userId}
@@ -303,8 +346,7 @@ export default function Profile() {
                             padding: '10px',
                             marginTop: '5px',
                             marginBottom: '5px',
-                        }}
-                    >
+                        }}>
                         <h5 style={{ marginTop: '5px', marginBottom: '5px' }}>Email:</h5>
                         <p style={{ marginTop: '5px', marginBottom: '5px' }}>
                             {user.email}
@@ -318,8 +360,7 @@ export default function Profile() {
                             padding: '10px',
                             marginTop: '5px',
                             marginBottom: '5px',
-                        }}
-                    >
+                        }}>
                         <h5 style={{ marginTop: '5px', marginBottom: '5px' }}>Username:</h5>
                         <p style={{ marginTop: '5px', marginBottom: '5px' }}>
                             {user.userName}
@@ -333,11 +374,10 @@ export default function Profile() {
                             padding: '10px',
                             marginTop: '5px',
                             marginBottom: '5px',
-                        }}
-                    >
+                        }}>
                         <h5 style={{ marginTop: '5px', marginBottom: '5px' }}>
                             Current Location:
-            </h5>
+                        </h5>
                         <p style={{ marginTop: '5px', marginBottom: '5px' }}>
                             {user.currentLocation.locationName}
                         </p>
@@ -360,11 +400,10 @@ export default function Profile() {
                             padding: '10px',
                             marginTop: '5px',
                             marginBottom: '5px',
-                        }}
-                    >
+                        }}>
                         <h5 style={{ marginTop: '5px', marginBottom: '5px' }}>
                             Current Alias:
-            </h5>
+                        </h5>
                         <p style={{ marginTop: '5px', marginBottom: '5px' }}>
                             {currentAliasName}
                         </p>
@@ -398,16 +437,13 @@ export default function Profile() {
                                 },
                             }}
                         />
-
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
-                        >
-                            Create
-            </Button>
+                        >Create</Button>
                     </form>
                 </div>
                 <Box mt={8}>
