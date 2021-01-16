@@ -58,7 +58,6 @@ const LocationDrawer = (props) => {
   const [adjacentLocation1, setAdjacentLocation1] = React.useState({});
   const [adjacentLocation2, setAdjacentLocation2] = React.useState({});
 
-
   const swapCurrentView = () => {
     if (currentView === 'main') {
       setCurrentView('userView');
@@ -67,35 +66,32 @@ const LocationDrawer = (props) => {
     }
   };
 
-  
   const changeLocation = async (locationId) => {
     user.currentLocationId = locationId;
     dispatch(userAction.updateLocation(user));
 
-    setState({left:false});
+    setState({ left: false });
     props.setGrabbedLocation(false);
   };
-
 
   const changeHackStatus = () => {
     if (!hacked) {
       setHacked(true);
+      //
     }
   };
 
-
   //updates the DOM
   useEffect(() => {
-    console.log('in useEffect hook');
-
     //gets the hack response from the server
     if (hacked && aHackToStopHack === false) {
       //TODO:
+      console.log('in useEffect hook');
       //  - right now this shows nothing, just calls the request
       //  - contract success or failure should show
       //  - need to have the contracts tied to the user first
       const updateWithHack = async () => {
-        await HandleHackRequest();
+        await HandleHackRequest(user);
       };
       updateWithHack();
       setAHackToStopHack(true);
@@ -180,7 +176,7 @@ const LocationDrawer = (props) => {
     ) {
       return;
     }
-    
+
     setState({ ...state, [anchor]: open });
     props.setGrabbedLocation(false);
   };
@@ -237,9 +233,7 @@ const LocationDrawer = (props) => {
           </List>
         ) : (
           <div style={{ marginLeft: '40px' }}>
-            <p>
-              You must be in this city to take any actions here.
-            </p>
+            <p>You must be in this city to take any actions here.</p>
           </div>
         )}
       </div>

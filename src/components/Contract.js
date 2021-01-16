@@ -77,8 +77,6 @@ const WantedList = () => {
   }, [user.userId, wanted.length]);
 
   const classes = useStyles();
-  console.log(wanted);
-  console.log(myContract);
 
   const handleOnclick = async (row) => {
     const contract = {
@@ -89,18 +87,13 @@ const WantedList = () => {
       targetId: row.targetId,
     };
     //here call api to change
-    const res = await baseClient.put(
-      `/contracts/${contract.contractId}`,
-      contract
-    );
-    console.log(res.data);
+    await baseClient.put(`/contracts/${contract.contractId}`, contract);
 
     const newWanted = wanted.filter(
       (w) => w.contractId !== contract.contractId
     );
     setWanted(newWanted);
     handleClose();
-    console.log(contract);
   };
   const handleOpen = () => {
     setOpen(true);

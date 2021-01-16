@@ -4,8 +4,8 @@ import './Map.css';
 import Button from '@material-ui/core/Button';
 import LocationDrawer from './LocationDrawer';
 
-import paris_photo from '../../location_photos/paris.jpg';
-import { useSelector } from 'react-redux';
+// import paris_photo from '../../location_photos/paris.jpg';
+// import { useSelector } from 'react-redux';
 
 // function WorldMap() {
 //   return <img src={MapImage} alt="Logo" resizeMode="cover" />;
