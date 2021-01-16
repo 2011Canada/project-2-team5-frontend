@@ -17,6 +17,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { sizing } from '@material-ui/system';
 
 import {
     MakeAnAlias,
@@ -28,13 +29,14 @@ import {
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import EditProfile from './EditProfile';
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Grid } from '@material-ui/core';
+import { Card, CardActionArea, CardActions, CardContent, CardHeader, CardMedia, Grid } from '@material-ui/core';
 
 import hammad from "../profile_images/hammad.jpg";
 import heng from "../profile_images/heng.jpg";
 import stephen from "../profile_images/stephen.jpg";
 import tristan from "../profile_images/tristan.jpg";
 import alias1 from "../profile_images/alias1.jpg";
+import { CenterFocusStrong } from '@material-ui/icons';
 
 function Copyright() {
     return (
@@ -56,6 +58,25 @@ const useStyles = makeStyles((theme) => ({
         width: '100vw',
         height: '100%',
         color: 'white',
+    },
+    cardsRoot: {
+        flexGrow: 1,
+        background: '#242422',
+        width: '90vw',
+        height: '100%',
+        color: 'white',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
+    card: {
+        maxWidth: 200,
+        textAlign: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+    },
+    media: {
+        alignContent: 'center',
+        textAlign: 'center',
     },
     paper: {
         paddingTop: theme.spacing(12),
@@ -94,8 +115,12 @@ const useStyles = makeStyles((theme) => ({
         borderColor: 'white !important',
     },
     small: {
-        width: theme.spacing(3),
-        height: theme.spacing(3),
+        width: theme.spacing(7),
+        height: theme.spacing(7),
+        alignItems: 'center',
+        alignContent: 'center',
+        marginLeft: 'auto',
+        marginRight: 'auto',
     },
     large: {
         width: theme.spacing(15),
@@ -103,23 +128,23 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
+// const StyledTableCell = withStyles((theme) => ({
+//     head: {
+//         backgroundColor: theme.palette.common.black,
+//         color: theme.palette.common.white,
+//     },
+//     body: {
+//         fontSize: 14,
+//     },
+// }))(TableCell);
 
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-        },
-    },
-}))(TableRow);
+// const StyledTableRow = withStyles((theme) => ({
+//     root: {
+//         '&:nth-of-type(odd)': {
+//             backgroundColor: theme.palette.action.hover,
+//         },
+//     },
+// }))(TableRow);
 
 export default function Profile() {
     const classes = useStyles();
@@ -226,7 +251,7 @@ export default function Profile() {
         const newAlias = {
             aliasLevel: 0,
             name: newAliasName,
-            stateID: 'hidden',
+            stateID: 1,
         };
         const updatedAliases = userAliases;
         updatedAliases.push(newAlias);
@@ -235,36 +260,32 @@ export default function Profile() {
 
     const UserAliasesCards = () => {
         return (
-            <div className={classes.root}>
-                <Grid container spacing={3}>
+            <div className={classes.cardsRoot}> 
+                <Grid container spacing={5} justify="space-evenly" alignItems="center" alignContent='center'>
                     {userAliases.map((alias) => (
-                        <Grid item xs={12}>
-                            <Card className={classes.root}>
-                                <CardActionArea>
-                                    <CardMedia
-                                        className={classes.media}
-                                        avatar={<Avatar alt="Alias" src={alias1} className={classes.small} />}
-                                        title="Alias Profile"
-                                    />
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            {alias.name}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            Current Level: {alias.aliasLevel}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary" component="p">
-                                            Current State: {(alias.stateID === 1) ? "hidden" : "revealed"}
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
+                        <Grid item xs={3} height={20}>
+                            <Card className={classes.card} style={{backgroundColor: 'darkgray', border: '5px solid green', borderRadius: '15px'}}>
+                                <CardContent style={{ alignItems: 'center'}}>
+                                    <Avatar alt="Alias" src={alias1} className={classes.small}/>
+                                    <br/>
+                                    <Typography gutterBottom variant="h6" component="h3">
+                                        {alias.name}
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                        <b>Level:</b> {alias.aliasLevel}
+                                    </Typography>
+                                    <Typography variant="body2" color="textSecondary" component="p">
+                                        <b>State:</b> {(alias.stateID === 1) ? "Hidden" : "Revealed"}
+                                    </Typography>
+                                </CardContent>
                                 <CardActions>
                                     <Button
                                         variant="contained"
                                         color="primary"
+                                        style={{marginLeft: 'auto', marginRight: 'auto'}}
                                         onClick={() => handleSetAlias(alias)}>
                                         Take Alias
-                                </Button>
+                                    </Button>
                                 </CardActions>
                             </Card>
                         </Grid>
@@ -389,9 +410,10 @@ export default function Profile() {
                     </BrowserRouter>
                     <br />
                     <div>
-                        <h3 style={{ textAlign: 'center' }}>Your Aliases</h3>
+                        <h2 style={{ textAlign: 'center' }}>Your Aliases</h2>
                         {getUserAliases()}
                     </div>
+                    <br/>
                     <div
                         style={{
                             border: '1px solid white',
