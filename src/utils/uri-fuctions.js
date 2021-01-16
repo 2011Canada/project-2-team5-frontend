@@ -32,7 +32,7 @@ export const GetAllUsersInCity = async (locationId) => {
 const getMyContracts = async (userId) => {
   try {
     let res = await baseClient.get(`/contracts/user/${userId}`);
-    return res.data;
+    return res.data.filter((c) => c.statusId !== 3 && c.statusId !== 4);
   } catch (e) {
     return [];
   }
@@ -43,7 +43,7 @@ const getCurrentLocationAlias = async (locationId) => {
   const aliases = [];
   users.forEach((user) => {
     user.title.forEach((t) => {
-      if (t.active) {
+      if (t.active && t.stateID !== 3) {
         t.stateID = 2;
         aliases.push(t);
       }
@@ -109,13 +109,18 @@ export const HandleHackRequest = async (user) => {
     aliasResult.push(myAlias);
   }
 
-  console.log(aliasResult);
-  console.log(contractResult);
+  // console.log(aliasResult);
+  // console.log(contractResult);
   const aliasRes = aliasResult.map(async (alias) => await updateAlias(alias));
   const contractRes = contractResult.map(
     async (contract) => await updateContract(contract.contractId, contract)
   );
-  Promise.all([...aliasRes, ...contractRes]);
+  return Promise.all([...aliasRes, ...contractRes]).then(() => {
+    return {
+      aliasResult,
+      contractResult,
+    };
+  });
   // let hackData = {
   //     requestType: 'hack',
   //     userId,
