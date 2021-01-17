@@ -16,7 +16,7 @@ import {
     UpdateAlias,
 } from '../utils/uri-fuctions.js';
 
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
 import EditProfile from './EditProfile';
 import { Card, CardActions, CardContent, Grid } from '@material-ui/core';
@@ -341,10 +341,15 @@ export default function Profile() {
                         </p>
                     </div>
                     <br />
-                    <BrowserRouter>
+                    <div>
+                        <Link to="/profile/edit">Edit Profile</Link>
+                        <Route path="/profile/edit" exact component={EditProfile}/>
+                    </div>
+
+                    {/* <BrowserRouter>
                         <Route path="/profile/edit" exact component={EditProfile} />
                         <Link to="/profile/edit">Edit Profile</Link>
-                    </BrowserRouter>
+                    </BrowserRouter> */}
                     <br />
                     <div>
                         <h2 style={{ textAlign: 'center' }}>Your Aliases</h2>
