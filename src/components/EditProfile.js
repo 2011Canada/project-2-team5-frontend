@@ -3,7 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -12,10 +11,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useSelector, useDispatch } from 'react-redux';
 import { auth } from '../actions';
-import { Redirect } from 'react-router';
 import { Alert, AlertTitle } from '@material-ui/lab';
 
 import { MakeAnAlias, GetLocationName, GetCurrentAlias } from '../utils/uri-fuctions.js';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
+
+import Profile from './Profile';
 
 function Copyright() {
     return (
@@ -77,61 +78,43 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Profile() {
+export default function EditProfile() {
 
     const classes = useStyles();
 
-    //const user = useSelector((state) => state.authenticated);
+    const user = useSelector((state) => state.authenticated);
 
-    const userOld = {
-        "userId": 2,
-        "firstName": "Heng",
-        "lastName": "Wang",
-        "userName": "HengWang",
-        "userPassword": "C5IDc2I7OAg+yLf9ataZVMmVe5+KNmShy+pZBm5K1tk=",
-        "email": "heng.wang@revature.net",
-        "photo": null,
-        "salt": null,
-        "currentLocationId": 1
-    };
-    const [user, setUser] = useState(userOld);
+    const [newEmail, setNewEmail] = useState("");
+
+    const [newUsername, setNewUsername] = useState("");
+
+    const [newPassword, setNewPassword] = useState("");
 
     const dispatch = useDispatch();
 
-
     function handleSubmit(event) {
         event.preventDefault();
+
+        // user.email = newEmail;
+        // user.userName = newUsername;
+        // user.userPassword = newPassword;
+
+        //call some function
+
     };
 
-    function handleOnChange(event) {
-        const value = event.target.value;
-        const name = event.target.name;
-        user[name] = value;
-        setUser(user);
-        console.log(user)
-    };
-
-    //Redirect to="/dashboard" (
-    //   <p />
-    // ) :
-
-    //console.log(user);
-
-    return user && (
+    return (
         <div className={classes.root}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
                     <Typography component="h1" variant="h4">
                         {user.firstName} {user.lastName}
                     </Typography>
                     <form className={classes.form} noValidate onSubmit={handleSubmit}>
                         <h3>Edit Profile</h3>
                         <TextField
-                            onChange={(e) => handleOnChange(e)}
+                            onChange={(e) => setNewEmail((e.target.value))}
                             defaultValue={user.email}
                             variant="outlined"
                             margin="normal"
@@ -158,7 +141,7 @@ export default function Profile() {
                             }}
                         />
                         <TextField
-                            onChange={(e) => handleOnChange(e)}
+                            onChange={(e) => setNewUsername((e.target.value))}
                             defaultValue={user.userName}
                             variant="outlined"
                             margin="normal"
@@ -184,7 +167,7 @@ export default function Profile() {
                             }}
                         />
                         <TextField
-                            onChange={(e) => handleOnChange(e)}
+                            onChange={(e) => setNewPassword((e.target.value))}
                             defaultValue={user.userPassword}
                             variant="outlined"
                             margin="normal"
@@ -218,6 +201,8 @@ export default function Profile() {
                             className={classes.submit}
                         >Submit</Button>
                     </form>
+                    <Route path="/profile" exact component={Profile} />
+                    <Link to="/profile">cancel</Link>
                 </div>
                 <Box mt={8}>
                     <Copyright />
