@@ -244,7 +244,7 @@ export default function Profile() {
           container
           spacing={1}
           gridGap={0}
-          style={{ width: '32%', marginLeft: 'auto', marginRight: 'auto' }}
+          style={{ width: '42%', marginLeft: 'auto', marginRight: 'auto' }}
         >
           {userAliases.map((alias) => (
             <Grid item xs={4} height={20}>

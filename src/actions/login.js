@@ -7,7 +7,7 @@ export const login = (data) => async (dispatch) => {
 
     if (response.status === 200) {
       const user = response.data;
-      delete user.password;
+      //delete user.password;
       dispatch({ type: CHANGE_AUTH, payload: user });
       dispatch({ type: FETCH_ERROR_MESSAGE, payload: '' });
     }
@@ -25,7 +25,7 @@ export const signup = (data) => async (dispatch) => {
 
     if (response.status === 201) {
       const user = response.data;
-      delete user.password;
+      //delete user.password;
       dispatch({ type: CHANGE_AUTH, payload: user });
       dispatch({ type: FETCH_ERROR_MESSAGE, payload: '' });
     }
