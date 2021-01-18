@@ -28,7 +28,7 @@ const App = () => {
     },
   });
 
-  document.body.style.backgroundColor = "#303030";
+  document.body.style.backgroundColor = '#303030';
 
   return (
     <ThemeProvider theme={theme}>
@@ -36,13 +36,13 @@ const App = () => {
         <Route path="/" exact component={Login} />
         <Header />
         <Route path="/signup" exact component={Signup} />
-        <Route path="/map">
-          <requreAuth>
-              <Map />
-          </requreAuth>
-        </Route>
+        <Route path="/map" exact component={requireAuth(Map)} />
         <Route path="/profile" exact component={requireAuth(Profile)} />
-        <Route path="/profile/edit" exact component={requireAuth(EditProfile)} />
+        <Route
+          path="/profile/edit"
+          exact
+          component={requireAuth(EditProfile)}
+        />
         <Route path="/contract" exact component={requireAuth(Contract)} />
 
         <Route path="/logout" exact component={requireAuth(Logout)} />
