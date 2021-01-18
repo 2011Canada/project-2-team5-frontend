@@ -14,11 +14,13 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
   navbarDisplayFlex: {
     display: `flex`,
+    marginLeft: '10px',
     justifyContent: `space-between`,
   },
   navDisplayFlex: {
     display: `flex`,
-    justifyContent: `space-between`,
+    marginRight: '10px',
+    justifyContent: 'space-between',
   },
   linkText: {
     textDecoration: `none`,
@@ -36,7 +38,7 @@ const Header = () => {
   const classes = useStyles();
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed" style={{'backgroundColor': '#222222'}}>
       <Toolbar>
         <Container maxWidth="md" className={classes.navbarDisplayFlex}>
           <IconButton edge="start" color="inherit" aria-label="home">
@@ -44,25 +46,25 @@ const Header = () => {
               <Home fontSize="large" />
             </a>
           </IconButton>
-          <List
-            component="nav"
-            aria-labelledby="main navigation"
-            className={classes.navDisplayFlex}
-          >
-            {navLinks.map(({ title, path }) => (
-              <a href={path} key={title} className={classes.linkText}>
-                <ListItem button>
-                  <ListItemText primary={title} />
-                </ListItem>
-              </a>
-            ))}
-            <a href={'/logout'} key={'logout'} className={classes.linkText}>
+        </Container>
+      <List
+          component="nav"
+          aria-labelledby="main navigation"
+          className={classes.navDisplayFlex}
+        >
+          {navLinks.map(({ title, path }) => (
+            <a href={path} key={title} className={classes.linkText}>
               <ListItem button>
-                <ListItemText primary={'LOGOUT'} />
+                <ListItemText primary={title} />
               </ListItem>
             </a>
-          </List>
-        </Container>
+          ))}
+          <a href={'/logout'} key={'logout'} className={classes.linkText}>
+            <ListItem button>
+              <ListItemText primary={'LOGOUT'} />
+            </ListItem>
+          </a>
+        </List>
       </Toolbar>
     </AppBar>
   );

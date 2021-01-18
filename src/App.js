@@ -14,36 +14,40 @@ import Contract from './components/Contract';
 
 import Header from './components/Header';
 import Logout from './components/Logout';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 
 const App = () => {
-  // const theme = createMuiTheme({
-  //   palette: {
-  //     primary: {
-  //       // Purple and green play nicely together.
-  //       main: purple[500],
-  //     },
-  //     secondary: {
-  //       // This is green.A700 as hex.
-  //       main: '#11cb5f',
-  //     },
-  //   },
-  // });
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: '#303030',
+      },
+      secondary: {
+        main: '#CCCCCC',
+      },
+    },
+  });
+
+  document.body.style.backgroundColor = "#303030";
 
   return (
-    // <ThemeProvider theme={theme}>
-    <BrowserRouter>
-      <Route path="/" exact component={Login} />
-      <Header />
-      <Route path="/signup" exact component={Signup} />
-      <Route path="/map" exact component={requireAuth(Map)} />
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Route path="/" exact component={Login} />
+        <Header />
+        <Route path="/signup" exact component={Signup} />
+        <Route path="/map">
+          <requreAuth>
+              <Map />
+          </requreAuth>
+        </Route>
+        <Route path="/profile" exact component={requireAuth(Profile)} />
+        <Route path="/profile/edit" exact component={requireAuth(EditProfile)} />
+        <Route path="/contract" exact component={requireAuth(Contract)} />
 
-      <Route path="/profile" exact component={requireAuth(Profile)} />
-      <Route path="/profile/edit" exact component={requireAuth(EditProfile)} />
-      <Route path="/contract" exact component={requireAuth(Contract)} />
-
-      <Route path="/logout" exact component={requireAuth(Logout)} />
-    </BrowserRouter>
-    // </ThemeProvider>
+        <Route path="/logout" exact component={requireAuth(Logout)} />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 };
 

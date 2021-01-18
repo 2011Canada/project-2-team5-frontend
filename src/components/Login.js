@@ -31,7 +31,7 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    background: '#242422',
+    background: '#303030',
     width: '100vw',
     height: '100vh',
     color: 'white',
@@ -170,8 +170,8 @@ export default function SignIn() {
             <Button
               type="submit"
               fullWidth
-              variant="contained"
-              color="primary"
+              variant="outlined"
+              color="secondary"
               className={classes.submit}
             >
               Sign In

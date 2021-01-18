@@ -43,14 +43,14 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        background: '#242422',
+        background: '#303030',
         width: '100vw',
         height: '100%',
         color: 'white',
     },
     cardsRoot: {
         flexGrow: 1,
-        background: '#242422',
+        background: '#303030',
         width: '90vw',
         height: '100%',
         color: 'white',
@@ -59,9 +59,10 @@ const useStyles = makeStyles((theme) => ({
     },
     card: {
         maxWidth: 200,
-        textAlign: 'center',
+        textAlign: 'left',
         alignContent: 'center',
         alignItems: 'center',
+
     },
     media: {
         alignContent: 'center',
@@ -83,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
         color: 'white',
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+        margin: theme.spacing(2, 0, 2),
     },
     cssLabel: {
         color: 'white',
@@ -97,7 +98,9 @@ const useStyles = makeStyles((theme) => ({
     multilineColor: {
         color: 'white',
     },
-    cssFocused: {},
+    cssFocused: {
+        color: 'white'
+    },
 
     notchedOutline: {
         borderWidth: '1px',
@@ -236,21 +239,21 @@ export default function Profile() {
     const UserAliasesCards = () => {
         return (
             <div className={classes.cardsRoot}> 
-                <Grid container spacing={5} justify="space-evenly" alignItems="center" alignContent='center'>
+                <Grid container spacing={1} gridGap={0} style={{width:'32%', marginLeft:'auto', marginRight:'auto'}}>
                     {userAliases.map((alias) => (
-                        <Grid item xs={3} height={20}>
-                            <Card className={classes.card} style={{backgroundColor: 'darkgray', border: '5px solid green', borderRadius: '15px'}}>
+                        <Grid item xs={4} height={20}>
+                            <Card className={classes.card} style={{backgroundColor: '#EEEEEE', border: '3px solid #777777', borderRadius: '5px'}}>
                                 <CardContent style={{ alignItems: 'center'}}>
                                     <Avatar alt="Alias" src={alias1} className={classes.small}/>
                                     <br/>
-                                    <Typography gutterBottom variant="h6" component="h3">
+                                    <Typography gutterBottom variant="h6" component="h3" style={{textAlign:'center'}}>
                                         {alias.name}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary" component="p">
                                         <b>Level:</b> {alias.aliasLevel}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary" component="p">
-                                        <b>State:</b> {(alias.stateID === 1) ? "Hidden" : "Revealed"}
+                                        <b>Status:</b> {(alias.stateID === 1) ? "Hidden" : "Revealed"}
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
@@ -352,31 +355,34 @@ export default function Profile() {
                     </BrowserRouter> */}
                     <br />
                     <div>
-                        <h2 style={{ textAlign: 'center' }}>Your Aliases</h2>
+                        <h2 style={{ textAlign: 'center', marginTop:'50px'}}>Your Aliases</h2>
+                        <div
+                            style={{
+                                border: '1px solid white',
+                                width: '20%',
+                                borderRadius: '7px',
+                                padding: '10px',
+                                marginTop: '10px',
+                                marginBottom: '20px',
+                                marginLeft: 'auto',
+                                marginRight: 'auto'
+                            }}>
+                            <h5 style={{ marginTop: '5px', marginBottom: '5px' }}>
+                                Current Alias:
+                            </h5>
+                            <p style={{ marginTop: '5px', marginBottom: '5px' }}>
+                                {currentAliasName}
+                            </p>
+                        </div>
                         {getUserAliases()}
                     </div>
                     <br/>
-                    <div
-                        style={{
-                            border: '1px solid white',
-                            width: '100%',
-                            borderRadius: '7px',
-                            padding: '10px',
-                            marginTop: '5px',
-                            marginBottom: '5px',
-                        }}>
-                        <h5 style={{ marginTop: '5px', marginBottom: '5px' }}>
-                            Current Alias:
-                        </h5>
-                        <p style={{ marginTop: '5px', marginBottom: '5px' }}>
-                            {currentAliasName}
-                        </p>
-                    </div>
 
-                    <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                    <form className={classes.form} noValidate onSubmit={handleSubmit} style={{marginTop: '50px'}}>
                         <h3>Create New Alias</h3>
                         <TextField
                             placeholder="Alias Name"
+                            style={{marginTop: '0px'}}
                             onChange={(e) => changeHandler(e)}
                             variant="outlined"
                             margin="normal"
@@ -404,8 +410,9 @@ export default function Profile() {
                         <Button
                             type="submit"
                             fullWidth
-                            variant="contained"
-                            color="primary"
+                            variant="outlined"
+                            color="secondary"
+                            style={{width:"25%", marginLeft:'auto', marginRight:'auto'}}
                             className={classes.submit}
                         >Create</Button>
                     </form>

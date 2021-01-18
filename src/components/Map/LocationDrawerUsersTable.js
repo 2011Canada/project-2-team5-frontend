@@ -15,10 +15,12 @@ const useStyles = makeStyles({
     table: {
       marginLeft: 'auto',
       marginRight: 'auto',
-      minWidth: '500px'
+      minWidth: '500px',
     },
     backButton: {
-      backgroundColor: 'white',
+      // color: 'white',
+      // backgroundColor: '#252525',
+      variant: 'outlined',
       flexFlow: 1,
       marginTop: '20px',
       marginBottom: '20px',
@@ -29,7 +31,7 @@ const useStyles = makeStyles({
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
-      backgroundColor: theme.palette.common.black,
+      backgroundColor: '#202020',
       color: theme.palette.common.white,
     },
     body: {
@@ -40,7 +42,10 @@ const StyledTableCell = withStyles((theme) => ({
   const StyledTableRow = withStyles((theme) => ({
     root: {
       '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
+        backgroundColor: '#CCCCCC',
+      },
+      '&:nth-of-type(even)': {
+        backgroundColor: '#DDDDDD',
       },
     },
   }))(TableRow);
@@ -69,11 +74,11 @@ const LocationDrawerUsersTable = (props) => {
 
     return (
       <div>
-        <Button className={classes.backButton} variant='outlined' onClick={props.swapper}>Back</Button>
+        <Button className={classes.backButton} color="secondary" variant='outlined' onClick={props.swapper}>Back</Button>
         <TableContainer component={Paper} style={{maxWidth:'90%', marginLeft:'auto', marginRight:'auto'}}>
           <Table className={classes.table} aria-label="customized table">
             <TableHead>
-              <TableRow>
+              <TableRow >
                 <StyledTableCell>Name</StyledTableCell>
                 {/* <StyledTableCell align="left">Known Aliases</StyledTableCell> */}
               </TableRow>

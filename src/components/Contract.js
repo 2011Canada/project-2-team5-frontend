@@ -18,27 +18,40 @@ import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: '#303030',
+  },
   header: {
     marginTop: theme.spacing(12),
+    marginBottom: theme.spacing(4),
+    paddingLeft: '10px',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'center',
     textAlign: 'center',
-    color: theme.palette.text.secondary,
+    color: 'white',
   },
-
   table: {
     width: '100%',
   },
 
   wanted: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(12),
+    backgroundColor: '#CCCCCC',
+    width: '50%',
+    height: '75%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: '10px',
+    borderWidth: '5px',
+    borderColor: '#121212',
+    borderStyle: 'solid'
   },
 }));
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: '#202020',
     color: theme.palette.common.white,
   },
   body: {
@@ -49,7 +62,10 @@ const StyledTableCell = withStyles((theme) => ({
 const StyledTableRow = withStyles((theme) => ({
   root: {
     '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+      backgroundColor: '#DDDDDD',
+    },
+    '&:nth-of-type(even)': {
+      backgroundColor: '#EEEEEE',
     },
   },
 }))(TableRow);
@@ -103,19 +119,19 @@ const WantedList = () => {
     setOpen(false);
   };
   return (
-    <Container>
+    <Container className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={9}>
           <div className={classes.header}>
             <Typography component="h1" variant="h4">
-              My Current Contract
+              Active Contracts
             </Typography>
           </div>
         </Grid>
         <Grid item xs={3}>
           <div className={classes.header}>
-            <Button variant="contained" color="primary" onClick={handleOpen}>
-              View new Wanted
+            <Button variant="outlined" color="secondary" onClick={handleOpen}>
+              Check Contract Board
             </Button>
           </div>
         </Grid>
@@ -128,10 +144,10 @@ const WantedList = () => {
         aria-describedby="simple-modal-description"
       >
         <div className={classes.wanted}>
-          <Typography component="h1" variant="h2" align="center" color="error">
+          <Typography component="h1" variant="h2" align="center" style={{paddingBottom: '30px', paddingTop: '30px', width: '100%', backgroundColor: 'darkred', color: 'white', borderTopLeftRadius: '4px', borderTopRightRadius: '4px'}}>
             Wanted
           </Typography>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} style={{marginLeft:'auto', marginRight:'auto'}}>
             <Table className={classes.table} aria-label="customized table">
               <TableHead>
                 <TableRow>

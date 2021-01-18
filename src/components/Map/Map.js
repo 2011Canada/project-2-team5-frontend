@@ -4,6 +4,7 @@ import './Map.css';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import LocationDrawer from './LocationDrawer';
+import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core';
 
 // import paris_photo from '../../location_photos/paris.jpg';
 // import { useSelector } from 'react-redux';
@@ -14,6 +15,8 @@ import LocationDrawer from './LocationDrawer';
 
 function ParentMap() {
   /*HERE BEGINS THE FUNCTION THAT FIRES WHEN THE BUTTONS ARE PRESSED*/
+
+  
   const [activeLocation, setActiveLocation] = React.useState(0);
   const [grabbedLocation, setGrabbedLocation] = React.useState(false);
 
@@ -25,16 +28,15 @@ function ParentMap() {
   //TODO: test
   useState(() => {}, [activeLocation]);
 
-  /*END OF FUNCTION THAT FIRES WHEN THE BUTTONS ARE PRESSED*/
 
   return (
     //all-containing component
     <div className="mapcontainer">
       <div className="description">
-        <h1>Welcome</h1>
-        <Paper>
-          Welcome to SpyBook, the only social media platform for spies. Each of the seven marked cities on the map is a possible destination from which you can carry out  
-          your nefarious schemes. To open the Location Drawer, click on any of the seven marked cities.
+        <h1 style={{'paddingLeft':'20px', 'color': 'white'}}>Welcome to Spybook</h1>
+        <Paper style={{'padding':'20px 20px 20px 20px', 'backgroundColor': '#55555500', 'color': 'white'}}>
+          The only social media platform for spies. Each of the seven marked cities on the map is a possible destination from which you can carry out  
+          your nefarious schemes. Click on any of the seven marked cities to see what you can do.
         </Paper>
       </div>
 
@@ -121,28 +123,4 @@ function ParentMap() {
   );
 }
 
-/*
-WHAT FOLLOWS IS THE TEST DATA FOR THE DUMMY VERSION OF THE LOCATION DRAWER
-*/
-
-/*
-WHAT FOLLOWS IS THE EXPORTED FUNCTION, WHICH TESTS THE DUMMY VERSION OF THE LOCATION DRAWER
-*/
-
-function SuperParent() {
-  if (true) {
-    return (
-      <div>
-        <ParentMap />
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <ParentMap />
-      </div>
-    );
-  }
-}
-
-export default SuperParent;
+export default ParentMap;

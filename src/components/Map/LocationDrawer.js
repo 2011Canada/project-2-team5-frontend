@@ -36,6 +36,7 @@ import {
 import { userAction } from '../../actions/index.js';
 
 const drawerMaxWidth = '600px';
+
 const useStyles = makeStyles({
   root: {
     display: 'flex',
@@ -46,6 +47,8 @@ const useStyles = makeStyles({
   },
   drawerPaper: {
     maxWidth: drawerMaxWidth,
+    backgroundColor: '#303030',
+    color: 'white'
   },
 });
 function Alert(props) {
@@ -260,13 +263,13 @@ const LocationDrawer = (props) => {
             >
               <ListItemIcon>
                 {' '}
-                <CameraIcon />
+                <CameraIcon style={{'color': 'white'}} />
               </ListItemIcon>
               <ListItemText primary="Hack" />
             </ListItem>
             <ListItem button onClick={swapCurrentView} key="View Users in City">
               <ListItemIcon>
-                <PeopleIcon />
+                <PeopleIcon style={{'color': 'white'}} />
               </ListItemIcon>
               <ListItemText primary="View Users in City" />
             </ListItem>
@@ -276,7 +279,7 @@ const LocationDrawer = (props) => {
               key={'Travel to ' + adjacentLocation1.locationName}
             >
               <ListItemIcon>
-                <FlightTakeoffIcon />
+                <FlightTakeoffIcon style={{'color': 'white'}} />
               </ListItemIcon>
               <ListItemText
                 primary={'Travel to ' + adjacentLocation1.locationName}
@@ -288,7 +291,7 @@ const LocationDrawer = (props) => {
               key={'Travel to ' + adjacentLocation2.locationName}
             >
               <ListItemIcon>
-                <FlightTakeoffIcon />
+                <FlightTakeoffIcon style={{'color': 'white'}} />
               </ListItemIcon>
               <ListItemText
                 primary={'Travel to ' + adjacentLocation2.locationName}
@@ -328,17 +331,17 @@ const LocationDrawer = (props) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title" style={{'backgroundColor':'#303030', 'color':'white'}}>{title}</DialogTitle>
+        <DialogContent style={{'backgroundColor':'#303030'}}>
+          <DialogContentText id="alert-dialog-description" style={{'color':'white'}}>
             {description}
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose} color="primary">
+        <DialogActions style={{'backgroundColor': '#303030'}}>
+          <Button onClick={handleDialogClose} color="primary" variant="outlined" autoFocus style={{'color':'white'}}>
             No
           </Button>
-          <Button onClick={handleDialogYes} color="primary" autoFocus>
+          <Button onClick={handleDialogYes} color="primary" variant="outlined" style={{'color':'white'}}>
             Yes
           </Button>
         </DialogActions>
@@ -347,7 +350,7 @@ const LocationDrawer = (props) => {
   };
 
   return (
-    <div>
+    <div >
       <Snackbar
         open={resultOpen}
         autoHideDuration={6000}
