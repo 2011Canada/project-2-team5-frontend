@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { Home } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
   navbarDisplayFlex: {
@@ -36,9 +37,9 @@ const navLinks = [
 
 const Header = () => {
   const classes = useStyles();
-
-  return (
-    <AppBar position="fixed" style={{'backgroundColor': '#222222'}}>
+  const user = useSelector((state) => state.authenticated);
+  return user ? (
+    <AppBar position="fixed" style={{ backgroundColor: '#222222' }}>
       <Toolbar>
         <Container maxWidth="md" className={classes.navbarDisplayFlex}>
           <IconButton edge="start" color="inherit" aria-label="home">
@@ -47,7 +48,7 @@ const Header = () => {
             </a>
           </IconButton>
         </Container>
-      <List
+        <List
           component="nav"
           aria-labelledby="main navigation"
           className={classes.navDisplayFlex}
@@ -67,6 +68,8 @@ const Header = () => {
         </List>
       </Toolbar>
     </AppBar>
+  ) : (
+    <></>
   );
 };
 export default Header;
