@@ -1,70 +1,80 @@
-# Getting Started with Create React App
+# SPYBOOK
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Description
+Spybook is a social game in which the main goal of the users, the players, is to hack other users. The players can get contracts from the website and they specify who the target user is. There is a world map using which players can move between locations and find their targets. Each user works by assuming a secret identity, an alias, and each player can have multiple aliases. Players level up or down based on the successful or unsuccessful completion of a contract.
 
-## Available Scripts
 
-In the project directory, you can run:
+## Technologies Used
 
-### `npm start`
+Backend:
+* Spring
+    * Spring Data
+    * Spring MVC
+    * Spring Boot
+* Java
+* Hibernate
+* Postgres
+* Swagger
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Frontend:
+* React and Redux
+* Javascript
+* CSS
+* Material-ui
+* Axios
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+## Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* Players can view all their aliases.
+* Players can set a current alias.
+* Players can create a new alias.
+* Player can move between locations.
+* Players can view the users located in their current location.
+* Players can take contracts.
+* Players can hack locations to complete their targets.
 
-### `npm run build`
+To-Do list:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* Use a Google Maps API for moving between locations
+* Give players the ability to leave a calling card.
+* Make it difficult for players to know other's location (by adding clues and hints to crack)
+* Color code alias cards to reflect the status
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Getting Started
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* Go to http://java-react-team5-project2.s3-website.us-east-2.amazonaws.com/ to get started.  
+OR
+* Install any IDE(s) compatible with Java and JavaScript
+* Download the backend and frontend code using the command:
+* Backend:
+    * git clone https://github.com/2011Canada/project-2-team5-backend.git
+    * update the maven project to install all dependencies
+    * set the "ddl-auto" to "create" in the application.yml file in /src/main/resources
+    * run the file Project2Application.java in src/main/java/com/revature/project2
+    * set the "ddl-auto" back to "validate"
+* Frontend:
+    * git clone https://github.com/2011Canada/project-2-team5-frontend.git  
+    * navigate to directory containing the cloned repo
+    * run `npm install` to install all dependencies
+    * run `npm start` to launch the website
 
-### `npm run eject`
+## Usage
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+* On the login page, enter credentials to login as a player and you will be taken to the main page of the app where you can see options to travel between different locations and to hack a location.  
+![homepage](https://user-images.githubusercontent.com/65080518/105397521-07fbbf00-5bd6-11eb-89d6-1c9eb4907d16.PNG)
+* From the main page, go to the profile page to view all your aliases and your current alias. You will also find an option to create an alias there.
+* Next, navigate to the contracts page to get a contract and come back to main page to begin hacking!
+* You can go back to the profile page to check that the level of your alias has changed after a hack operation.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Contributors
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<!--[![](https://avatars0.githubusercontent.com/u/65080518?s=460&v=4)](https://github.com/Hammad15)-->
+* [Mohammed Hammad](https://github.com/Hammad15)
+* [Heng Wang](https://github.com/VinceWangTO)
+* [Stephen Razis](https://github.com/Sizarazis)
+* [Tristan Brennan](https://github.com/tristanbrennan)
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+The project uses this following license: [GNU General Public License v3.0](https://github.com/2011Canada/project-2-team5-backend/blob/main/LICENSE)
